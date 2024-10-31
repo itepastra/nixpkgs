@@ -1,13 +1,14 @@
-{ lib
-, buildGoModule
-, fetchpatch
-, fetchFromGitHub
-, git
-, groff
-, installShellFiles
-, makeWrapper
-, unixtools
-, nixosTests
+{
+  lib,
+  buildGoModule,
+  fetchpatch,
+  fetchFromGitHub,
+  git,
+  groff,
+  installShellFiles,
+  makeWrapper,
+  unixtools,
+  nixosTests,
 }:
 
 buildGoModule rec {
@@ -70,7 +71,9 @@ buildGoModule rec {
     git
   ];
 
-  passthru.tests = { inherit (nixosTests) hub; };
+  passthru.tests = {
+    inherit (nixosTests) hub;
+  };
 
   meta = with lib; {
     description = "Command-line wrapper for git that makes you better at GitHub";

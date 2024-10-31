@@ -1,16 +1,17 @@
-{ lib
-, stdenv
-, fetchFromGitHub
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
 
-, python3
-, installShellFiles
-, makeWrapper
-, wrapQtAppsHook
+  python3,
+  installShellFiles,
+  makeWrapper,
+  wrapQtAppsHook,
 
-, advancecomp
-, jpegoptim
-, optipng
-, pngcrush
+  advancecomp,
+  jpegoptim,
+  optipng,
+  pngcrush,
 }:
 
 let

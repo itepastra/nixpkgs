@@ -1,10 +1,11 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, postgresql
-, flex
-, curl
-, json_c
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  postgresql,
+  flex,
+  curl,
+  json_c,
 }:
 
 stdenv.mkDerivation rec {
@@ -20,7 +21,11 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ flex ];
 
-  buildInputs = postgresql.buildInputs ++ [ postgresql curl json_c ];
+  buildInputs = postgresql.buildInputs ++ [
+    postgresql
+    curl
+    json_c
+  ];
 
   installPhase = ''
     mkdir -p $out/{bin,lib,share/postgresql/extension}
@@ -42,4 +47,3 @@ stdenv.mkDerivation rec {
     broken = versionAtLeast postgresql.version "17" && version == "5.4.1";
   };
 }
-

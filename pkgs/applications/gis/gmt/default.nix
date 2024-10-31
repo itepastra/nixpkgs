@@ -34,7 +34,8 @@ let
       enableHttp = true;
     };
   };
-in stdenv.mkDerivation (finalAttrs: {
+in
+stdenv.mkDerivation (finalAttrs: {
   pname = "gmt";
   version = "6.5.0";
   src = fetchFromGitHub {
@@ -77,20 +78,19 @@ in stdenv.mkDerivation (finalAttrs: {
     ghostscript
   ];
 
-  cmakeFlags =
-    [
-      "-DGMT_DOCDIR=share/doc/gmt"
-      "-DGMT_MANDIR=share/man"
-      "-DGMT_LIBDIR=lib"
-      "-DCOPY_GSHHG:BOOL=FALSE"
-      "-DGSHHG_ROOT=${gshhg-gmt.out}/share/gshhg-gmt"
-      "-DCOPY_DCW:BOOL=FALSE"
-      "-DDCW_ROOT=${dcw-gmt.out}/share/dcw-gmt"
-      "-DGMT_INSTALL_TRADITIONAL_FOLDERNAMES:BOOL=FALSE"
-      "-DGMT_ENABLE_OPENMP:BOOL=TRUE"
-      "-DGMT_INSTALL_MODULE_LINKS:BOOL=FALSE"
-      "-DLICENSE_RESTRICTED=LGPL" # "GPL" and "no" also valid
-    ];
+  cmakeFlags = [
+    "-DGMT_DOCDIR=share/doc/gmt"
+    "-DGMT_MANDIR=share/man"
+    "-DGMT_LIBDIR=lib"
+    "-DCOPY_GSHHG:BOOL=FALSE"
+    "-DGSHHG_ROOT=${gshhg-gmt.out}/share/gshhg-gmt"
+    "-DCOPY_DCW:BOOL=FALSE"
+    "-DDCW_ROOT=${dcw-gmt.out}/share/dcw-gmt"
+    "-DGMT_INSTALL_TRADITIONAL_FOLDERNAMES:BOOL=FALSE"
+    "-DGMT_ENABLE_OPENMP:BOOL=TRUE"
+    "-DGMT_INSTALL_MODULE_LINKS:BOOL=FALSE"
+    "-DLICENSE_RESTRICTED=LGPL" # "GPL" and "no" also valid
+  ];
 
   meta = {
     homepage = "https://www.generic-mapping-tools.org";

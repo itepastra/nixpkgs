@@ -1,19 +1,22 @@
-{ lib, stdenv
-, fetchurl
-, jdk
-, gradle_7
-, jre
-, makeWrapper
-, makeDesktopItem
-, copyDesktopItems
-, testers
-, key
+{
+  lib,
+  stdenv,
+  fetchurl,
+  jdk,
+  gradle_7,
+  jre,
+  makeWrapper,
+  makeDesktopItem,
+  copyDesktopItems,
+  testers,
+  key,
 }:
 
 let
   gradle = gradle_7;
 
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "key";
   version = "2.10.0";
   src = fetchurl {
@@ -67,11 +70,10 @@ in stdenv.mkDerivation rec {
     runHook postInstall
   '';
 
-  passthru.tests.version =
-    testers.testVersion {
-      package = key;
-      command = "KeY --help";
-    };
+  passthru.tests.version = testers.testVersion {
+    package = key;
+    command = "KeY --help";
+  };
 
   meta = with lib; {
     description = "Java formal verification tool";

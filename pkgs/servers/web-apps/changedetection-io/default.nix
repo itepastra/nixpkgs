@@ -1,6 +1,7 @@
-{ lib
-, fetchFromGitHub
-, python3
+{
+  lib,
+  fetchFromGitHub,
+  python3,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -26,47 +27,50 @@ python3.pkgs.buildPythonApplication rec {
       --replace "werkzeug~=3.0" "werkzeug"
   '';
 
-  propagatedBuildInputs = with python3.pkgs; [
-    apprise
-    beautifulsoup4
-    brotli
-    babel
-    chardet
-    cryptography
-    dnspython
-    elementpath
-    eventlet
-    feedgen
-    flask
-    flask-compress
-    flask-cors
-    flask-expects-json
-    flask-login
-    flask-paginate
-    flask-restful
-    flask-wtf
-    greenlet
-    inscriptis
-    jinja2
-    jinja2-time
-    jsonpath-ng
-    jq
-    loguru
-    lxml
-    paho-mqtt
-    playwright
-    pyee
-    pyppeteer
-    pytz
-    requests
-    selenium
-    setuptools
-    timeago
-    urllib3
-    validators
-    werkzeug
-    wtforms
-  ] ++ requests.optional-dependencies.socks;
+  propagatedBuildInputs =
+    with python3.pkgs;
+    [
+      apprise
+      beautifulsoup4
+      brotli
+      babel
+      chardet
+      cryptography
+      dnspython
+      elementpath
+      eventlet
+      feedgen
+      flask
+      flask-compress
+      flask-cors
+      flask-expects-json
+      flask-login
+      flask-paginate
+      flask-restful
+      flask-wtf
+      greenlet
+      inscriptis
+      jinja2
+      jinja2-time
+      jsonpath-ng
+      jq
+      loguru
+      lxml
+      paho-mqtt
+      playwright
+      pyee
+      pyppeteer
+      pytz
+      requests
+      selenium
+      setuptools
+      timeago
+      urllib3
+      validators
+      werkzeug
+      wtforms
+    ]
+    ++ requests.optional-dependencies.socks;
 
   # tests can currently not be run in one pytest invocation and without docker
   doCheck = false;

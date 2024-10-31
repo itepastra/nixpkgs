@@ -1,4 +1,10 @@
-{ lib, stdenv, fetchFromGitHub, postgresql, postgresqlTestExtension }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  postgresql,
+  postgresqlTestExtension,
+}:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "plpgsql-check";

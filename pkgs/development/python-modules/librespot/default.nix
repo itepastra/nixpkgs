@@ -25,7 +25,6 @@ buildPythonPackage rec {
 
   pythonRelaxDeps = true;
 
-
   propagatedBuildInputs = [
     defusedxml
     protobuf

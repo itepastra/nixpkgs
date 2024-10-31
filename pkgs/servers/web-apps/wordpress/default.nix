@@ -1,4 +1,5 @@
-{ callPackage }: builtins.mapAttrs (_: callPackage ./generic.nix) rec {
+{ callPackage }:
+builtins.mapAttrs (_: callPackage ./generic.nix) rec {
   wordpress = wordpress_6_6;
   wordpress_6_5 = {
     version = "6.5.5";

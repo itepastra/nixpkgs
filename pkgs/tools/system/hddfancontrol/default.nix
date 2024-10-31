@@ -1,4 +1,12 @@
-{ lib, python3Packages, fetchFromGitHub, hddtemp, hdparm, smartmontools, nixosTests }:
+{
+  lib,
+  python3Packages,
+  fetchFromGitHub,
+  hddtemp,
+  hdparm,
+  smartmontools,
+  nixosTests,
+}:
 
 python3Packages.buildPythonPackage rec {
   pname = "hddfancontrol";
@@ -25,7 +33,9 @@ python3Packages.buildPythonPackage rec {
     sed -i -e '/EnvironmentFile=.*/d' $out/etc/systemd/system/hddfancontrol.service
   '';
 
-  passthru.tests = { inherit (nixosTests) hddfancontrol; };
+  passthru.tests = {
+    inherit (nixosTests) hddfancontrol;
+  };
 
   meta = with lib; {
     description = "Dynamically control fan speed according to hard drive temperature on Linux";

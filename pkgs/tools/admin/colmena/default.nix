@@ -1,5 +1,15 @@
-{ stdenv, lib, rustPlatform, fetchFromGitHub, installShellFiles, makeBinaryWrapper, nix-eval-jobs, nixVersions
-, colmena, testers }:
+{
+  stdenv,
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  installShellFiles,
+  makeBinaryWrapper,
+  nix-eval-jobs,
+  nixVersions,
+  colmena,
+  testers,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "colmena";
@@ -14,7 +24,10 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-rk2atWWJIR95duUXxAiARegjeCyfAsqTDwEr5P0eIr8=";
 
-  nativeBuildInputs = [ installShellFiles makeBinaryWrapper ];
+  nativeBuildInputs = [
+    installShellFiles
+    makeBinaryWrapper
+  ];
 
   buildInputs = [ nix-eval-jobs ];
 

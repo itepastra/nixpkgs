@@ -31,7 +31,6 @@ buildPythonPackage rec {
 
   pythonRemoveDeps = [ "faust-cchardet" ];
 
-
   propagatedBuildInputs = [
     aenum
     aiodns

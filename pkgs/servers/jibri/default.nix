@@ -1,4 +1,14 @@
-{ lib, stdenv, fetchurl, dpkg, jdk11_headless, makeWrapper, writeText, xorg, nixosTests }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  dpkg,
+  jdk11_headless,
+  makeWrapper,
+  writeText,
+  xorg,
+  nixosTests,
+}:
 
 let
   xorgModulePaths = writeText "module-paths" ''
@@ -20,7 +30,10 @@ stdenv.mkDerivation rec {
   };
 
   dontBuild = true;
-  nativeBuildInputs = [ dpkg makeWrapper ];
+  nativeBuildInputs = [
+    dpkg
+    makeWrapper
+  ];
 
   installPhase = ''
     runHook preInstall
@@ -38,7 +51,9 @@ stdenv.mkDerivation rec {
 
   passthru.updateScript = ./update.sh;
 
-  passthru.tests = { inherit (nixosTests) jibri; };
+  passthru.tests = {
+    inherit (nixosTests) jibri;
+  };
 
   meta = with lib; {
     description = "JItsi BRoadcasting Infrastructure";

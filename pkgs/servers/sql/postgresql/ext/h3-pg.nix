@@ -1,10 +1,11 @@
-{ lib
-, stdenv
-, cmake
-, fetchFromGitHub
-, h3_4
-, postgresql
-, postgresqlTestExtension
+{
+  lib,
+  stdenv,
+  cmake,
+  fetchFromGitHub,
+  h3_4,
+  postgresql,
+  postgresqlTestExtension,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -18,13 +19,15 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-nkaDZ+JuMtsGUJVx70DD2coLrmc/T8/cNov7pfNF1Eg=";
   };
 
-  postPatch = ''
-    substituteInPlace CMakeLists.txt \
-      --replace "add_subdirectory(cmake/h3)" "include_directories(${lib.getDev h3_4}/include/h3)"
-  '' + lib.optionalString stdenv.hostPlatform.isDarwin ''
-    substituteInPlace cmake/AddPostgreSQLExtension.cmake \
-      --replace "INTERPROCEDURAL_OPTIMIZATION TRUE" ""
-  '';
+  postPatch =
+    ''
+      substituteInPlace CMakeLists.txt \
+        --replace "add_subdirectory(cmake/h3)" "include_directories(${lib.getDev h3_4}/include/h3)"
+    ''
+    + lib.optionalString stdenv.hostPlatform.isDarwin ''
+      substituteInPlace cmake/AddPostgreSQLExtension.cmake \
+        --replace "INTERPROCEDURAL_OPTIMIZATION TRUE" ""
+    '';
 
   nativeBuildInputs = [
     cmake

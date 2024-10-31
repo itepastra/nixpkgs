@@ -1,11 +1,12 @@
-{ lib
-, stdenv
-, buildDotnetModule
-, fetchFromGitHub
-, dotnetCorePackages
-, openssl
-, mono
-, nixosTests
+{
+  lib,
+  stdenv,
+  buildDotnetModule,
+  fetchFromGitHub,
+  dotnetCorePackages,
+  openssl,
+  mono,
+  nixosTests,
 }:
 
 buildDotnetModule rec {
@@ -39,7 +40,9 @@ buildDotnetModule rec {
   '';
   passthru.updateScript = ./updater.sh;
 
-  passthru.tests = { inherit (nixosTests) jackett; };
+  passthru.tests = {
+    inherit (nixosTests) jackett;
+  };
 
   meta = with lib; {
     description = "API Support for your favorite torrent trackers";
@@ -47,6 +50,10 @@ buildDotnetModule rec {
     homepage = "https://github.com/Jackett/Jackett/";
     changelog = "https://github.com/Jackett/Jackett/releases/tag/v${version}";
     license = licenses.gpl2Only;
-    maintainers = with maintainers; [ edwtjo nyanloutre purcell ];
+    maintainers = with maintainers; [
+      edwtjo
+      nyanloutre
+      purcell
+    ];
   };
 }

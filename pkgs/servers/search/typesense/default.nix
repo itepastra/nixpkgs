@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, fetchurl
-, autoPatchelfHook
-, nixosTests
+{
+  lib,
+  stdenv,
+  fetchurl,
+  autoPatchelfHook,
+  nixosTests,
 }:
 let
   inherit (stdenv.hostPlatform) system;
@@ -34,7 +35,9 @@ stdenv.mkDerivation {
   '';
 
   passthru = {
-    tests = { inherit (nixosTests) typesense; };
+    tests = {
+      inherit (nixosTests) typesense;
+    };
     updateScript = ./update.sh;
   };
 

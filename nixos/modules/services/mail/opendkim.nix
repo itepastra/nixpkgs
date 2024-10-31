@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
 
   cfg = config.services.opendkim;
@@ -7,16 +12,39 @@ let
 
   keyFile = "${cfg.keyPath}/${cfg.selector}.private";
 
-  args = [ "-f" "-l"
-           "-p" cfg.socket
-           "-d" cfg.domains
-           "-k" keyFile
-           "-s" cfg.selector
-         ] ++ lib.optionals (cfg.configFile != null) [ "-x" cfg.configFile ];
+  args =
+    [
+      "-f"
+      "-l"
+      "-p"
+      cfg.socket
+      "-d"
+      cfg.domains
+      "-k"
+      keyFile
+      "-s"
+      cfg.selector
+    ]
+    ++ lib.optionals (cfg.configFile != null) [
+      "-x"
+      cfg.configFile
+    ];
 
-in {
+in
+{
   imports = [
-    (lib.mkRenamedOptionModule [ "services" "opendkim" "keyFile" ] [ "services" "opendkim" "keyPath" ])
+    (lib.mkRenamedOptionModule
+      [
+        "services"
+        "opendkim"
+        "keyFile"
+      ]
+      [
+        "services"
+        "opendkim"
+        "keyPath"
+      ]
+    )
   ];
 
   ###### interface
@@ -84,7 +112,6 @@ in {
 
   };
 
-
   ###### implementation
 
   config = lib.mkIf cfg.enable {
@@ -131,7 +158,7 @@ in {
         StateDirectoryMode = "0700";
         ReadWritePaths = [ cfg.keyPath ];
 
-        AmbientCapabilities = [];
+        AmbientCapabilities = [ ];
         CapabilityBoundingSet = "";
         DevicePolicy = "closed";
         LockPersonality = true;
@@ -150,12 +177,18 @@ in {
         ProtectKernelTunables = true;
         ProtectSystem = "strict";
         RemoveIPC = true;
-        RestrictAddressFamilies = [ "AF_INET" "AF_INET6 AF_UNIX" ];
+        RestrictAddressFamilies = [
+          "AF_INET"
+          "AF_INET6 AF_UNIX"
+        ];
         RestrictNamespaces = true;
         RestrictRealtime = true;
         RestrictSUIDSGID = true;
         SystemCallArchitectures = "native";
-        SystemCallFilter = [ "@system-service" "~@privileged @resources" ];
+        SystemCallFilter = [
+          "@system-service"
+          "~@privileged @resources"
+        ];
         UMask = "0077";
       };
     };

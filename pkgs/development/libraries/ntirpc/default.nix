@@ -1,6 +1,13 @@
-{ lib, stdenv, fetchFromGitHub, cmake
-, krb5, liburcu , libtirpc, libnsl
-} :
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  krb5,
+  liburcu,
+  libtirpc,
+  libnsl,
+}:
 
 stdenv.mkDerivation rec {
   pname = "ntirpc";
@@ -13,14 +20,21 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-Txtc0Oyt/WfZiMe26uMzx3HFq/YaeU6cYfjPQwh0uQg=";
   };
 
-  outputs = [ "out" "dev" ];
+  outputs = [
+    "out"
+    "dev"
+  ];
   postPatch = ''
     substituteInPlace ntirpc/netconfig.h --replace "/etc/netconfig" "$out/etc/netconfig"
     sed '1i#include <assert.h>' -i src/work_pool.c
   '';
 
   nativeBuildInputs = [ cmake ];
-  buildInputs = [ krb5 liburcu libnsl ];
+  buildInputs = [
+    krb5
+    liburcu
+    libnsl
+  ];
 
   postInstall = ''
     mkdir -p $out/etc

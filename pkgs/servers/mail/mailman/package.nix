@@ -1,10 +1,11 @@
-{ lib
-, fetchpatch
-, python3
-, fetchPypi
-, postfix
-, lynx
-, nixosTests
+{
+  lib,
+  fetchpatch,
+  python3,
+  fetchPypi,
+  postfix,
+  lynx,
+  nixosTests,
 }:
 
 with python3.pkgs;
@@ -77,7 +78,9 @@ buildPythonPackage rec {
   # 'runner' scripts.
   dontWrapPythonPrograms = true;
 
-  passthru.tests = { inherit (nixosTests) mailman; };
+  passthru.tests = {
+    inherit (nixosTests) mailman;
+  };
 
   meta = {
     homepage = "https://www.gnu.org/software/mailman/";

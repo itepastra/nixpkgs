@@ -1,9 +1,10 @@
-{ fetchurl
-, buildDunePackage
-, topkg
-, findlib
-, ocamlbuild
-, ocaml
+{
+  fetchurl,
+  buildDunePackage,
+  topkg,
+  findlib,
+  ocamlbuild,
+  ocaml,
 }:
 
 buildDunePackage rec {
@@ -16,10 +17,17 @@ buildDunePackage rec {
 
   strictDeps = true;
 
-  nativeBuildInputs = [ topkg findlib ocamlbuild ocaml ];
+  nativeBuildInputs = [
+    topkg
+    findlib
+    ocamlbuild
+    ocaml
+  ];
   buildInputs = [ topkg ];
 
   inherit (topkg) buildPhase installPhase;
 
-  meta = { inherit (ocaml.meta) platforms; };
+  meta = {
+    inherit (ocaml.meta) platforms;
+  };
 }

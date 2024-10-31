@@ -1,8 +1,9 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
-, libxcrypt
-, nixosTests
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  libxcrypt,
+  nixosTests,
 }:
 
 buildGoModule rec {
@@ -20,7 +21,9 @@ buildGoModule rec {
 
   vendorHash = null;
 
-  passthru.tests = { inherit (nixosTests) portunus; };
+  passthru.tests = {
+    inherit (nixosTests) portunus;
+  };
 
   meta = with lib; {
     description = "Self-contained user/group management and authentication service";

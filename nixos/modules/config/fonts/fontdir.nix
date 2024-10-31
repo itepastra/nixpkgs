@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
 
   cfg = config.fonts.fontDir;
@@ -58,7 +63,17 @@ in
   };
 
   imports = [
-    (lib.mkRenamedOptionModule [ "fonts" "enableFontDir" ] [ "fonts" "fontDir" "enable" ])
+    (lib.mkRenamedOptionModule
+      [
+        "fonts"
+        "enableFontDir"
+      ]
+      [
+        "fonts"
+        "fontDir"
+        "enable"
+      ]
+    )
   ];
 
 }

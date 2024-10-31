@@ -1,65 +1,66 @@
-{ stdenvNoCC
-, stdenv
-, lib
-, fetchurl
-, requireFile
-, dpkg
-, nss
-, nspr
-, xorg
-, pango
-, zlib
-, atkmm
-, libdrm
-, libxkbcommon
-, xcbutilwm
-, xcbutilimage
-, xcbutilkeysyms
-, xcbutilrenderutil
-, mesa
-, alsa-lib
-, wayland
-, atk
-, qt6
-, at-spi2-atk
-, at-spi2-core
-, dbus
-, cups
-, gtk3
-, libxml2
-, cairo
-, freetype
-, fontconfig
-, vulkan-loader
-, gdk-pixbuf
-, libexif
-, ffmpeg
-, pulseaudio
-, systemd
-, libuuid
-, expat
-, bzip2
-, glib
-, libva
-, libGL
-, libnotify
-, buildFHSEnv
-, writeShellScript
-, /**
-  License for wechat-uos, packed in a gz archive named "license.tar.gz".
-  It should have the following files:
-  license.tar.gz
-  ├── etc
-  │   ├── lsb-release
-  │   └── os-release
-  └── var
-      ├── lib
-      │   └── uos-license
-      │       └── .license.json
-      └── uos
-          └── .license.key
+{
+  stdenvNoCC,
+  stdenv,
+  lib,
+  fetchurl,
+  requireFile,
+  dpkg,
+  nss,
+  nspr,
+  xorg,
+  pango,
+  zlib,
+  atkmm,
+  libdrm,
+  libxkbcommon,
+  xcbutilwm,
+  xcbutilimage,
+  xcbutilkeysyms,
+  xcbutilrenderutil,
+  mesa,
+  alsa-lib,
+  wayland,
+  atk,
+  qt6,
+  at-spi2-atk,
+  at-spi2-core,
+  dbus,
+  cups,
+  gtk3,
+  libxml2,
+  cairo,
+  freetype,
+  fontconfig,
+  vulkan-loader,
+  gdk-pixbuf,
+  libexif,
+  ffmpeg,
+  pulseaudio,
+  systemd,
+  libuuid,
+  expat,
+  bzip2,
+  glib,
+  libva,
+  libGL,
+  libnotify,
+  buildFHSEnv,
+  writeShellScript,
+  /**
+    License for wechat-uos, packed in a gz archive named "license.tar.gz".
+    It should have the following files:
+    license.tar.gz
+    ├── etc
+    │   ├── lsb-release
+    │   └── os-release
+    └── var
+        ├── lib
+        │   └── uos-license
+        │       └── .license.json
+        └── uos
+            └── .license.key
   */
-  uosLicense ? null
+  uosLicense ? null,
 }:
 let
   # zerocallusedregs hardening breaks WeChat
@@ -91,12 +92,13 @@ let
     name = "uos-license-unzipped";
     src =
       if uosLicense == null then
-        requireFile
-          {
-            name = "license.tar.gz";
-            url = "https://www.uniontech.com";
-            hash = "sha256-U3YAecGltY8vo9Xv/h7TUjlZCyiIQdgSIp705VstvWk=";
-          } else uosLicense;
+        requireFile {
+          name = "license.tar.gz";
+          url = "https://www.uniontech.com";
+          hash = "sha256-U3YAecGltY8vo9Xv/h7TUjlZCyiIQdgSIp705VstvWk=";
+        }
+      else
+        uosLicense;
 
     installPhase = ''
       runHook preInstall
@@ -211,12 +213,12 @@ let
 
   sources = import ./sources.nix;
 
-  wechat = stdenvNoCC.mkDerivation
-    rec {
-      pname = "wechat-uos";
-      version = sources.version;
+  wechat = stdenvNoCC.mkDerivation rec {
+    pname = "wechat-uos";
+    version = sources.version;
 
-      src = {
+    src =
+      {
         x86_64-linux = fetchurl {
           url = sources.amd64_url;
           hash = sources.amd64_hash;
@@ -229,44 +231,52 @@ let
           url = sources.loongarch64_url;
           hash = sources.loongarch64_hash;
         };
-      }.${stdenv.system} or (throw "${pname}-${version}: ${stdenv.system} is unsupported.");
+      }
+      .${stdenv.system} or (throw "${pname}-${version}: ${stdenv.system} is unsupported.");
 
-      inherit uosLicense;
+    inherit uosLicense;
 
-      nativeBuildInputs = [ dpkg ];
+    nativeBuildInputs = [ dpkg ];
 
-      unpackPhase = ''
-        runHook preUnpack
+    unpackPhase = ''
+      runHook preUnpack
 
-        dpkg -x $src ./wechat-uos
+      dpkg -x $src ./wechat-uos
 
-        runHook postUnpack
-      '';
+      runHook postUnpack
+    '';
 
-      # Use ln for license to prevent being garbage collection
-      installPhase = ''
-        runHook preInstall
-        mkdir -p $out
+    # Use ln for license to prevent being garbage collection
+    installPhase = ''
+      runHook preInstall
+      mkdir -p $out
 
-        cp -r wechat-uos/* $out
+      cp -r wechat-uos/* $out
 
-        mkdir -pv $out/usr/lib/wechat-uos/license
-        ln -s ${uosLicenseUnzipped}/* $out/usr/lib/wechat-uos/license/
-        ln -s ${libuosdevicea}/lib/libuosdevicea.so $out/usr/lib/wechat-uos/license/
+      mkdir -pv $out/usr/lib/wechat-uos/license
+      ln -s ${uosLicenseUnzipped}/* $out/usr/lib/wechat-uos/license/
+      ln -s ${libuosdevicea}/lib/libuosdevicea.so $out/usr/lib/wechat-uos/license/
 
-        runHook postInstall
-      '';
+      runHook postInstall
+    '';
 
-      meta = with lib; {
-        description = "Messaging app";
-        homepage = "https://weixin.qq.com/";
-        license = licenses.unfree;
-        platforms = [ "x86_64-linux" "aarch64-linux" "loongarch64-linux" ];
-        sourceProvenance = with sourceTypes; [ binaryNativeCode ];
-        maintainers = with maintainers; [ pokon548 xddxdd ];
-        mainProgram = "wechat-uos";
-      };
+    meta = with lib; {
+      description = "Messaging app";
+      homepage = "https://weixin.qq.com/";
+      license = licenses.unfree;
+      platforms = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "loongarch64-linux"
+      ];
+      sourceProvenance = with sourceTypes; [ binaryNativeCode ];
+      maintainers = with maintainers; [
+        pokon548
+        xddxdd
+      ];
+      mainProgram = "wechat-uos";
     };
+  };
 in
 buildFHSEnv {
   inherit (wechat) name meta;
@@ -300,5 +310,10 @@ buildFHSEnv {
 
   passthru.updateScript = ./update.sh;
 
-  extraOutputsToInstall = [ "usr" "var/lib/uos" "var/uos" "etc" ];
+  extraOutputsToInstall = [
+    "usr"
+    "var/lib/uos"
+    "var/uos"
+    "etc"
+  ];
 }

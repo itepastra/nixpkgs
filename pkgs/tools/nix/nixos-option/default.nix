@@ -1,10 +1,11 @@
-{ lib
-, stdenv
-, boost
-, cmake
-, pkg-config
-, installShellFiles
-, nix
+{
+  lib,
+  stdenv,
+  boost,
+  cmake,
+  pkg-config,
+  installShellFiles,
+  nix,
 }:
 
 stdenv.mkDerivation {

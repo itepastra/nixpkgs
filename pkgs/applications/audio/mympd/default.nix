@@ -1,18 +1,19 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, pkg-config
-, libmpdclient
-, openssl
-, lua5_3
-, libid3tag
-, flac
-, pcre2
-, gzip
-, perl
-, jq
-, nixosTests
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  libmpdclient,
+  openssl,
+  lua5_3,
+  libid3tag,
+  flac,
+  pcre2,
+  gzip,
+  perl,
+  jq,
+  nixosTests,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -58,7 +59,9 @@ stdenv.mkDerivation (finalAttrs: {
   # 5 tests out of 23 fail, probably due to the sandbox...
   doCheck = false;
 
-  passthru.tests = { inherit (nixosTests) mympd; };
+  passthru.tests = {
+    inherit (nixosTests) mympd;
+  };
 
   meta = {
     homepage = "https://jcorporation.github.io/myMPD";

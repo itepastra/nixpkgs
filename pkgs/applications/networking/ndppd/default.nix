@@ -1,4 +1,10 @@
-{ lib, stdenv, fetchFromGitHub, gzip, nixosTests }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  gzip,
+  nixosTests,
+}:
 
 stdenv.mkDerivation rec {
   pname = "ndppd";
@@ -26,7 +32,9 @@ stdenv.mkDerivation rec {
     cp ndppd.conf-dist $out/etc/ndppd.conf
   '';
 
-  passthru.tests = { inherit (nixosTests) ndppd; };
+  passthru.tests = {
+    inherit (nixosTests) ndppd;
+  };
 
   meta = with lib; {
     description = "Daemon that proxies NDP (Neighbor Discovery Protocol) messages between interfaces";

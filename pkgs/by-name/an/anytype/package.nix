@@ -1,4 +1,10 @@
-{ lib, fetchurl, appimageTools, makeWrapper, commandLineArgs ? "" }:
+{
+  lib,
+  fetchurl,
+  appimageTools,
+  makeWrapper,
+  commandLineArgs ? "",
+}:
 
 let
   pname = "anytype";
@@ -9,7 +15,8 @@ let
     hash = "sha256-9CjzFJcMiEGods2Ulm4Ow3lIBXc7HPcWMUFM4cG7GuM=";
   };
   appimageContents = appimageTools.extractType2 { inherit pname version src; };
-in appimageTools.wrapType2 {
+in
+appimageTools.wrapType2 {
   inherit pname version src;
 
   nativeBuildInputs = [ makeWrapper ];

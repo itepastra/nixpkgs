@@ -1,34 +1,35 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, fetchpatch2
-, pkg-config
-, cmake
-, ninja
-, yasm
-, libjpeg
-, openssl
-, libopus
-, ffmpeg
-, protobuf
-, openh264
-, crc32c
-, libvpx
-, libX11
-, libXtst
-, libXcomposite
-, libXdamage
-, libXext
-, libXrender
-, libXrandr
-, libXi
-, glib
-, abseil-cpp
-, pipewire
-, mesa
-, libdrm
-, libGL
-, darwin
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch2,
+  pkg-config,
+  cmake,
+  ninja,
+  yasm,
+  libjpeg,
+  openssl,
+  libopus,
+  ffmpeg,
+  protobuf,
+  openh264,
+  crc32c,
+  libvpx,
+  libX11,
+  libXtst,
+  libXcomposite,
+  libXdamage,
+  libXext,
+  libXrender,
+  libXrandr,
+  libXi,
+  glib,
+  abseil-cpp,
+  pipewire,
+  mesa,
+  libdrm,
+  libGL,
+  darwin,
 }:
 
 stdenv.mkDerivation {
@@ -63,51 +64,65 @@ stdenv.mkDerivation {
       --replace '"libdrm.so.2"' '"${libdrm}/lib/libdrm.so.2"'
   '';
 
-  outputs = [ "out" "dev" ];
+  outputs = [
+    "out"
+    "dev"
+  ];
 
-  nativeBuildInputs = [ pkg-config cmake ninja yasm ];
+  nativeBuildInputs = [
+    pkg-config
+    cmake
+    ninja
+    yasm
+  ];
 
-  propagatedBuildInputs = [
-    libjpeg
-    openssl
-    libopus
-    ffmpeg
-    protobuf
-    openh264
-    crc32c
-    libvpx
-    abseil-cpp
-  ] ++ lib.optionals stdenv.hostPlatform.isLinux [
-    libX11
-    libXtst
-    libXcomposite
-    libXdamage
-    libXext
-    libXrender
-    libXrandr
-    libXi
-    glib
-    pipewire
-    mesa
-    libdrm
-    libGL
-  ] ++ lib.optionals stdenv.hostPlatform.isDarwin (with darwin.apple_sdk.frameworks; [
-    Cocoa
-    AppKit
-    IOKit
-    IOSurface
-    Foundation
-    AVFoundation
-    CoreMedia
-    VideoToolbox
-    CoreGraphics
-    CoreVideo
-    OpenGL
-    Metal
-    MetalKit
-    CoreFoundation
-    ApplicationServices
-  ]);
+  propagatedBuildInputs =
+    [
+      libjpeg
+      openssl
+      libopus
+      ffmpeg
+      protobuf
+      openh264
+      crc32c
+      libvpx
+      abseil-cpp
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isLinux [
+      libX11
+      libXtst
+      libXcomposite
+      libXdamage
+      libXext
+      libXrender
+      libXrandr
+      libXi
+      glib
+      pipewire
+      mesa
+      libdrm
+      libGL
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isDarwin (
+      with darwin.apple_sdk.frameworks;
+      [
+        Cocoa
+        AppKit
+        IOKit
+        IOSurface
+        Foundation
+        AVFoundation
+        CoreMedia
+        VideoToolbox
+        CoreGraphics
+        CoreVideo
+        OpenGL
+        Metal
+        MetalKit
+        CoreFoundation
+        ApplicationServices
+      ]
+    );
 
   enableParallelBuilding = true;
 

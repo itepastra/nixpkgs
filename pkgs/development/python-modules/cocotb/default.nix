@@ -30,21 +30,20 @@ buildPythonPackage rec {
   buildInputs = [ setuptools ];
   propagatedBuildInputs = [ find-libpython ];
 
-  postPatch =
-    ''
-      patchShebangs bin/*.py
+  postPatch = ''
+    patchShebangs bin/*.py
 
-      # POSIX portability (TODO: upstream this)
-      for f in \
-        cocotb/share/makefiles/Makefile.* \
-        cocotb/share/makefiles/simulators/Makefile.*
-      do
-        substituteInPlace $f --replace 'shell which' 'shell command -v'
-      done
+    # POSIX portability (TODO: upstream this)
+    for f in \
+      cocotb/share/makefiles/Makefile.* \
+      cocotb/share/makefiles/simulators/Makefile.*
+    do
+      substituteInPlace $f --replace 'shell which' 'shell command -v'
+    done
 
-      # remove circular dependency cocotb-bus from setup.py
-      substituteInPlace setup.py --replace "'cocotb-bus<1.0'" ""
-    '';
+    # remove circular dependency cocotb-bus from setup.py
+    substituteInPlace setup.py --replace "'cocotb-bus<1.0'" ""
+  '';
 
   patches = [
     # Fix "can't link with bundle (MH_BUNDLE) only dylibs (MH_DYLIB) file" error

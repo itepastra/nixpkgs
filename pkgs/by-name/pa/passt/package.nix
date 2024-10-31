@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, fetchurl
-, gitUpdater
-, testers
+{
+  lib,
+  stdenv,
+  fetchurl,
+  gitUpdater,
+  testers,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -44,7 +45,10 @@ stdenv.mkDerivation (finalAttrs: {
       interfaces on the host, hence not requiring any capabilities or
       privileges.
     '';
-    license = [ licenses.bsd3 /* and */ licenses.gpl2Plus ];
+    license = [
+      licenses.bsd3 # and
+      licenses.gpl2Plus
+    ];
     platforms = platforms.linux;
     maintainers = with maintainers; [ _8aed ];
     mainProgram = "passt";

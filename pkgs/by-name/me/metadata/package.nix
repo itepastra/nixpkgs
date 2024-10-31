@@ -1,11 +1,12 @@
-{ lib
-, fetchFromGitHub
-, pkg-config
-, ffmpeg
-, rustPlatform
-, glib
-, installShellFiles
-, asciidoc
+{
+  lib,
+  fetchFromGitHub,
+  pkg-config,
+  ffmpeg,
+  rustPlatform,
+  glib,
+  installShellFiles,
+  asciidoc,
 }:
 rustPlatform.buildRustPackage rec {
   pname = "metadata";

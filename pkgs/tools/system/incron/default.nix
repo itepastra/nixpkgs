@@ -1,4 +1,10 @@
-{ lib, stdenv, fetchFromGitHub, bash, nixosTests }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  bash,
+  nixosTests,
+}:
 
 stdenv.mkDerivation rec {
   pname = "incron";
@@ -27,7 +33,9 @@ stdenv.mkDerivation rec {
     cp incrond incrontab $out/bin/
   '';
 
-  passthru.tests = { inherit (nixosTests) incron; };
+  passthru.tests = {
+    inherit (nixosTests) incron;
+  };
 
   meta = with lib; {
     description = "Cron-like daemon which handles filesystem events";

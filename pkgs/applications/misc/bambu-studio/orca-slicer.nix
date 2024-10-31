@@ -15,7 +15,7 @@ bambu-studio.overrideAttrs (
       hash = "sha256-7fusdSYpZb4sYl5L/+81PzMd42Nsejj+kCZsq0f7eIk=";
     };
 
-    patches =[
+    patches = [
       # FIXME: only required for 2.1.1, can be removed in the next version
       ./patches/0002-fix-build-for-gcc-13.diff
       # Fix for webkitgtk linking

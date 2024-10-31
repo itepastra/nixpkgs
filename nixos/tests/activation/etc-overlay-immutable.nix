@@ -1,33 +1,36 @@
-{ lib, ... }: {
+{ lib, ... }:
+{
 
   name = "activation-etc-overlay-immutable";
 
   meta.maintainers = with lib.maintainers; [ nikstur ];
 
-  nodes.machine = { pkgs, ... }: {
-    system.etc.overlay.enable = true;
-    system.etc.overlay.mutable = false;
+  nodes.machine =
+    { pkgs, ... }:
+    {
+      system.etc.overlay.enable = true;
+      system.etc.overlay.mutable = false;
 
-    # Prerequisites
-    systemd.sysusers.enable = true;
-    users.mutableUsers = false;
-    boot.initrd.systemd.enable = true;
-    boot.kernelPackages = pkgs.linuxPackages_latest;
-    time.timeZone = "Utc";
+      # Prerequisites
+      systemd.sysusers.enable = true;
+      users.mutableUsers = false;
+      boot.initrd.systemd.enable = true;
+      boot.kernelPackages = pkgs.linuxPackages_latest;
+      time.timeZone = "Utc";
 
-    # The standard resolvconf service tries to write to /etc and crashes,
-    # which makes nixos-rebuild exit uncleanly when switching into the new generation
-    services.resolved.enable = true;
+      # The standard resolvconf service tries to write to /etc and crashes,
+      # which makes nixos-rebuild exit uncleanly when switching into the new generation
+      services.resolved.enable = true;
 
-    environment.etc = {
-      "mountpoint/.keep".text = "keep";
-      "filemount".text = "keep";
+      environment.etc = {
+        "mountpoint/.keep".text = "keep";
+        "filemount".text = "keep";
+      };
+
+      specialisation.new-generation.configuration = {
+        environment.etc."newgen".text = "newgen";
+      };
     };
-
-    specialisation.new-generation.configuration = {
-      environment.etc."newgen".text = "newgen";
-    };
-  };
 
   testScript = ''
     with subtest("/run/etc-metadata/ is mounted"):

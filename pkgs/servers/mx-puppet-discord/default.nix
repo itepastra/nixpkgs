@@ -1,5 +1,18 @@
-{ stdenv, fetchFromGitLab, pkgs, lib, node-pre-gyp, nodejs_18, pkg-config
-, libjpeg, pixman, cairo, pango, which, postgresql }:
+{
+  stdenv,
+  fetchFromGitLab,
+  pkgs,
+  lib,
+  node-pre-gyp,
+  nodejs_18,
+  pkg-config,
+  libjpeg,
+  pixman,
+  cairo,
+  pango,
+  which,
+  postgresql,
+}:
 
 let
   nodejs = nodejs_18;
@@ -19,11 +32,23 @@ let
     inherit (stdenv.hostPlatform) system;
   };
 
-in myNodePackages.package.override {
+in
+myNodePackages.package.override {
   inherit version src;
 
-  nativeBuildInputs = [ node-pre-gyp nodejs.pkgs.node-gyp-build pkg-config which ];
-  buildInputs = [ libjpeg pixman cairo pango postgresql ];
+  nativeBuildInputs = [
+    node-pre-gyp
+    nodejs.pkgs.node-gyp-build
+    pkg-config
+    which
+  ];
+  buildInputs = [
+    libjpeg
+    pixman
+    cairo
+    pango
+    postgresql
+  ];
 
   postRebuild = ''
     # Build typescript stuff

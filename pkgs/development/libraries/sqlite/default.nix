@@ -1,13 +1,22 @@
-{ lib, stdenv, fetchurl, zlib, readline, ncurses
-, updateAutotoolsGnuConfigScriptsHook
+{
+  lib,
+  stdenv,
+  fetchurl,
+  zlib,
+  readline,
+  ncurses,
+  updateAutotoolsGnuConfigScriptsHook,
 
-# for tests
-, python3Packages, sqldiff, sqlite-analyzer, tinysparql
+  # for tests
+  python3Packages,
+  sqldiff,
+  sqlite-analyzer,
+  tinysparql,
 
-# uses readline & ncurses for a better interactive experience if set to true
-, interactive ? false
+  # uses readline & ncurses for a better interactive experience if set to true
+  interactive ? false,
 
-, gitUpdater
+  gitUpdater,
 }:
 
 let
@@ -25,11 +34,20 @@ stdenv.mkDerivation rec {
     hash = "sha256-Z9P+bSaObq3crjcn/OWPzI6cU4ab3Qegxh443fKWUHE=";
   };
 
-  outputs = [ "bin" "dev" "out" ];
+  outputs = [
+    "bin"
+    "dev"
+    "out"
+  ];
   separateDebugInfo = stdenv.hostPlatform.isLinux;
 
   nativeBuildInputs = [ updateAutotoolsGnuConfigScriptsHook ];
-  buildInputs = [ zlib ] ++ lib.optionals interactive [ readline ncurses ];
+  buildInputs =
+    [ zlib ]
+    ++ lib.optionals interactive [
+      readline
+      ncurses
+    ];
 
   # required for aarch64 but applied for all arches for simplicity
   preConfigure = ''

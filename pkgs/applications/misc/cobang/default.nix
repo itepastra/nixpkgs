@@ -1,25 +1,26 @@
-{ lib
-, buildPythonApplication
-, fetchFromGitHub
-, brotlicffi
-, gst-python
-, kiss-headers
-, logbook
-, pillow
-, pygobject3
-, python-zbar
-, requests
-, single-version
-, gobject-introspection
-, gst-plugins-good
-, gtk3
-, libhandy
-, librsvg
-, networkmanager
-, setuptools
-, python
-, pytestCheckHook
-, wrapGAppsHook3
+{
+  lib,
+  buildPythonApplication,
+  fetchFromGitHub,
+  brotlicffi,
+  gst-python,
+  kiss-headers,
+  logbook,
+  pillow,
+  pygobject3,
+  python-zbar,
+  requests,
+  single-version,
+  gobject-introspection,
+  gst-plugins-good,
+  gtk3,
+  libhandy,
+  librsvg,
+  networkmanager,
+  setuptools,
+  python,
+  pytestCheckHook,
+  wrapGAppsHook3,
 }:
 
 buildPythonApplication rec {
@@ -97,7 +98,10 @@ buildPythonApplication rec {
     description = "QR code scanner desktop app for Linux";
     homepage = "https://github.com/hongquan/CoBang";
     license = licenses.gpl3Only;
-    maintainers = with maintainers; [ aleksana dvaerum ];
+    maintainers = with maintainers; [
+      aleksana
+      dvaerum
+    ];
     mainProgram = "cobang";
     platforms = lib.platforms.linux;
   };

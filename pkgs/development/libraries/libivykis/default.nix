@@ -1,4 +1,12 @@
-{ lib, stdenv, fetchurl, autoreconfHook, pkg-config, file, protobufc }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  autoreconfHook,
+  pkg-config,
+  file,
+  protobufc,
+}:
 
 stdenv.mkDerivation rec {
   pname = "libivykis";
@@ -10,8 +18,14 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-x9Kxi9k0Ln7f0T4OOKaNv+qm0x6S4+Z3K6o5Qp3+u58=";
   };
 
-  nativeBuildInputs = [ autoreconfHook pkg-config ];
-  buildInputs = [ file protobufc ];
+  nativeBuildInputs = [
+    autoreconfHook
+    pkg-config
+  ];
+  buildInputs = [
+    file
+    protobufc
+  ];
 
   meta = with lib; {
     homepage = "https://libivykis.sourceforge.net/";

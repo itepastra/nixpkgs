@@ -47,7 +47,11 @@ self: super: {
   system-cxx-std-lib = null;
   template-haskell = null;
   # GHC only builds terminfo if it is a native compiler
-  terminfo = if pkgs.stdenv.hostPlatform == pkgs.stdenv.buildPlatform then null else doDistribute self.terminfo_0_4_1_6;
+  terminfo =
+    if pkgs.stdenv.hostPlatform == pkgs.stdenv.buildPlatform then
+      null
+    else
+      doDistribute self.terminfo_0_4_1_6;
   text = null;
   time = null;
   transformers = null;
@@ -128,7 +132,17 @@ self: super: {
   hinotify = pkgs.haskell.lib.dontCheck super.hinotify; # https://github.com/kolmodin/hinotify/issues/38
   warp = pkgs.haskell.lib.dontCheck super.warp_3_4_2; # test suite assumes it can freely call curl
 
-  haskell-language-server = disableCabalFlag "retrie" (disableCabalFlag "hlint" (disableCabalFlag "stylishhaskel" (super.haskell-language-server.override {stylish-haskell = null;retrie = null;apply-refact=null;hlint = null;})));
-
+  haskell-language-server = disableCabalFlag "retrie" (
+    disableCabalFlag "hlint" (
+      disableCabalFlag "stylishhaskel" (
+        super.haskell-language-server.override {
+          stylish-haskell = null;
+          retrie = null;
+          apply-refact = null;
+          hlint = null;
+        }
+      )
+    )
+  );
 
 }

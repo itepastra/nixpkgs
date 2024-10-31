@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, fetchurl
-, openssl
-, which
+{
+  lib,
+  stdenv,
+  fetchurl,
+  openssl,
+  which,
 }:
 
 stdenv.mkDerivation rec {
@@ -24,7 +25,7 @@ stdenv.mkDerivation rec {
   doCheck = true;
 
   meta = with lib; {
-    description  = "Tool for buffering data streams with a large set of unique features";
+    description = "Tool for buffering data streams with a large set of unique features";
     homepage = "https://www.maier-komor.de/mbuffer.html";
     license = licenses.gpl3Only;
     maintainers = [ ];

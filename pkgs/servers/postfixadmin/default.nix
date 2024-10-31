@@ -1,4 +1,9 @@
-{ fetchFromGitHub, stdenv, lib, nixosTests }:
+{
+  fetchFromGitHub,
+  stdenv,
+  lib,
+  nixosTests,
+}:
 
 stdenv.mkDerivation rec {
   pname = "postfixadmin";
@@ -18,7 +23,9 @@ stdenv.mkDerivation rec {
     ln -sf /var/cache/postfixadmin/templates_c $out/
   '';
 
-  passthru.tests = { inherit (nixosTests) postfixadmin; };
+  passthru.tests = {
+    inherit (nixosTests) postfixadmin;
+  };
 
   meta = {
     description = "Web based virtual user administration interface for Postfix mail servers";

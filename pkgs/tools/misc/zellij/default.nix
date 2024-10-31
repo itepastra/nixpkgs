@@ -1,16 +1,17 @@
-{ lib
-, fetchFromGitHub
-, rustPlatform
-, stdenv
-, installShellFiles
-, pkg-config
-, libiconv
-, openssl
-, DiskArbitration
-, Foundation
-, mandown
-, zellij
-, testers
+{
+  lib,
+  fetchFromGitHub,
+  rustPlatform,
+  stdenv,
+  installShellFiles,
+  pkg-config,
+  libiconv,
+  openssl,
+  DiskArbitration,
+  Foundation,
+  mandown,
+  zellij,
+  testers,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -34,28 +35,32 @@ rustPlatform.buildRustPackage rec {
 
   OPENSSL_NO_VENDOR = 1;
 
-  buildInputs = [
-    openssl
-  ] ++ lib.optionals stdenv.hostPlatform.isDarwin [
-    libiconv
-    DiskArbitration
-    Foundation
-  ];
+  buildInputs =
+    [
+      openssl
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isDarwin [
+      libiconv
+      DiskArbitration
+      Foundation
+    ];
 
   preCheck = ''
     HOME=$TMPDIR
   '';
 
-  postInstall = ''
-    mandown docs/MANPAGE.md > zellij.1
-    installManPage zellij.1
+  postInstall =
+    ''
+      mandown docs/MANPAGE.md > zellij.1
+      installManPage zellij.1
 
-  '' + lib.optionalString (stdenv.buildPlatform.canExecute stdenv.hostPlatform) ''
-    installShellCompletion --cmd $pname \
-      --bash <($out/bin/zellij setup --generate-completion bash) \
-      --fish <($out/bin/zellij setup --generate-completion fish) \
-      --zsh <($out/bin/zellij setup --generate-completion zsh)
-  '';
+    ''
+    + lib.optionalString (stdenv.buildPlatform.canExecute stdenv.hostPlatform) ''
+      installShellCompletion --cmd $pname \
+        --bash <($out/bin/zellij setup --generate-completion bash) \
+        --fish <($out/bin/zellij setup --generate-completion fish) \
+        --zsh <($out/bin/zellij setup --generate-completion zsh)
+    '';
 
   passthru.tests.version = testers.testVersion { package = zellij; };
 
@@ -64,7 +69,12 @@ rustPlatform.buildRustPackage rec {
     homepage = "https://zellij.dev/";
     changelog = "https://github.com/zellij-org/zellij/blob/v${version}/CHANGELOG.md";
     license = with licenses; [ mit ];
-    maintainers = with maintainers; [ therealansh _0x4A6F abbe pyrox0 ];
+    maintainers = with maintainers; [
+      therealansh
+      _0x4A6F
+      abbe
+      pyrox0
+    ];
     mainProgram = "zellij";
   };
 }

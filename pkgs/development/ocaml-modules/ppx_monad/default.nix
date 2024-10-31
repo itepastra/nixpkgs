@@ -1,5 +1,8 @@
-{ lib, fetchFromGitHub, buildDunePackage
-, ppxlib
+{
+  lib,
+  fetchFromGitHub,
+  buildDunePackage,
+  ppxlib,
 }:
 
 buildDunePackage rec {
@@ -20,8 +23,9 @@ buildDunePackage rec {
   ];
 
   doCheck = true;
-  checkInputs = [
-  ];
+  checkInputs =
+    [
+    ];
 
   meta = {
     description = "OCaml Syntax Extension for all Monadic Syntaxes";

@@ -1,61 +1,73 @@
-{ buildGoModule
-, cairo
-, cargo
-, cargo-tauri
-, esbuild
-, fetchFromGitHub
-, gdk-pixbuf
-, glib-networking
-, gobject-introspection
-, lib
-, libsoup_3
-, makeBinaryWrapper
-, nodejs
-, openssl
-, pango
-, pkg-config
-, pnpm
-, rustc
-, rustPlatform
-, stdenv
-, webkitgtk_4_1
+{
+  buildGoModule,
+  cairo,
+  cargo,
+  cargo-tauri,
+  esbuild,
+  fetchFromGitHub,
+  gdk-pixbuf,
+  glib-networking,
+  gobject-introspection,
+  lib,
+  libsoup_3,
+  makeBinaryWrapper,
+  nodejs,
+  openssl,
+  pango,
+  pkg-config,
+  pnpm,
+  rustc,
+  rustPlatform,
+  stdenv,
+  webkitgtk_4_1,
 }:
 
 let
-  cargo-tauri_2 = let
-    version = "2.0.0-rc.3";
-    src = fetchFromGitHub {
-      owner = "tauri-apps";
-      repo = "tauri";
-      rev = "tauri-v${version}";
-      hash = "sha256-PV8m/MzYgbY4Hv71dZrqVbrxmxrwFfOAraLJIaQk6FQ=";
-    };
-  in cargo-tauri.overrideAttrs (drv: {
-    inherit src version;
-    cargoDeps = drv.cargoDeps.overrideAttrs (lib.const {
-      inherit src;
-      name = "tauri-${version}-vendor.tar.gz";
-      outputHash = "sha256-BrIH0JkGMp68O+4B+0g7X3lSdNSPXo+otlBgslCzPZE=";
+  cargo-tauri_2 =
+    let
+      version = "2.0.0-rc.3";
+      src = fetchFromGitHub {
+        owner = "tauri-apps";
+        repo = "tauri";
+        rev = "tauri-v${version}";
+        hash = "sha256-PV8m/MzYgbY4Hv71dZrqVbrxmxrwFfOAraLJIaQk6FQ=";
+      };
+    in
+    cargo-tauri.overrideAttrs (drv: {
+      inherit src version;
+      cargoDeps = drv.cargoDeps.overrideAttrs (
+        lib.const {
+          inherit src;
+          name = "tauri-${version}-vendor.tar.gz";
+          outputHash = "sha256-BrIH0JkGMp68O+4B+0g7X3lSdNSPXo+otlBgslCzPZE=";
+        }
+      );
     });
-  });
 
-  esbuild_21-5 = let
-    version = "0.21.5";
-  in esbuild.override {
-    buildGoModule = args:
-      buildGoModule (args // {
-        inherit version;
-        src = fetchFromGitHub {
-          owner = "evanw";
-          repo = "esbuild";
-          rev = "v${version}";
-          hash = "sha256-FpvXWIlt67G8w3pBKZo/mcp57LunxDmRUaCU/Ne89B8=";
-        };
-        vendorHash = "sha256-+BfxCyg0KkDQpHt/wycy/8CTG6YBA/VJvJFhhzUnSiQ=";
-      });
-  };
+  esbuild_21-5 =
+    let
+      version = "0.21.5";
+    in
+    esbuild.override {
+      buildGoModule =
+        args:
+        buildGoModule (
+          args
+          // {
+            inherit version;
+            src = fetchFromGitHub {
+              owner = "evanw";
+              repo = "esbuild";
+              rev = "v${version}";
+              hash = "sha256-FpvXWIlt67G8w3pBKZo/mcp57LunxDmRUaCU/Ne89B8=";
+            };
+            vendorHash = "sha256-+BfxCyg0KkDQpHt/wycy/8CTG6YBA/VJvJFhhzUnSiQ=";
+          }
+        );
+    };
 
-in stdenv.mkDerivation (finalAttrs: {
+in
+stdenv.mkDerivation (finalAttrs: {
   pname = "surrealist";
   version = "2.1.6";
 

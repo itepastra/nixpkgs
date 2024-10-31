@@ -140,7 +140,7 @@ let
   ];
 
 in
-stdenv.mkDerivation (finalAttrs:{
+stdenv.mkDerivation (finalAttrs: {
   pname = "ejabberd";
   version = "24.07";
 

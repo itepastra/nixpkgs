@@ -1,4 +1,10 @@
-{ lib, stdenv, fetchFromGitHub, postgresql, gitUpdater }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  postgresql,
+  gitUpdater,
+}:
 
 stdenv.mkDerivation rec {
   pname = "hypopg";

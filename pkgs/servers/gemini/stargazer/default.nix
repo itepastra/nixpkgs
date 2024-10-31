@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, fetchFromSourcehut
-, rustPlatform
-, installShellFiles
-, scdoc
-, Security
-, nixosTests
-, nix-update-script
+{
+  lib,
+  stdenv,
+  fetchFromSourcehut,
+  rustPlatform,
+  installShellFiles,
+  scdoc,
+  Security,
+  nixosTests,
+  nix-update-script,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -27,7 +28,10 @@ rustPlatform.buildRustPackage rec {
     updateScript = nix-update-script { };
   };
 
-  nativeBuildInputs = [ installShellFiles scdoc ];
+  nativeBuildInputs = [
+    installShellFiles
+    scdoc
+  ];
 
   buildInputs = lib.optional stdenv.hostPlatform.isDarwin Security;
 

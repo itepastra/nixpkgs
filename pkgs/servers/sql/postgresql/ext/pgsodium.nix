@@ -1,9 +1,10 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, libsodium
-, postgresql
-, postgresqlTestExtension
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  libsodium,
+  postgresql,
+  postgresqlTestExtension,
 }:
 
 stdenv.mkDerivation (finalAttrs: {

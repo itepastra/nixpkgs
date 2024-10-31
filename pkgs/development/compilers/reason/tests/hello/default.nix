@@ -1,4 +1,9 @@
-{ lib, buildDunePackage, ppxlib, reason }:
+{
+  lib,
+  buildDunePackage,
+  ppxlib,
+  reason,
+}:
 
 buildDunePackage rec {
   pname = "helloreason";

@@ -1,4 +1,9 @@
-{ lib, buildGoModule, fetchFromGitHub, nixosTests }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  nixosTests,
+}:
 
 buildGoModule {
   pname = "morty";
@@ -13,7 +18,9 @@ buildGoModule {
 
   vendorHash = "sha256-3sllcoTDYQBAyAT7e9KeKNrlTEbgnoZc0Vt0ksQByvo=";
 
-  passthru.tests = { inherit (nixosTests) morty; };
+  passthru.tests = {
+    inherit (nixosTests) morty;
+  };
 
   meta = with lib; {
     description = "Privacy aware web content sanitizer proxy as a service";
@@ -25,7 +32,10 @@ buildGoModule {
       The main goal of morty is to provide a result proxy for searx, but it can be used as a standalone sanitizer service too.
     '';
     homepage = "https://github.com/asciimoo/morty";
-    maintainers = with maintainers; [ leenaars SuperSandro2000 ];
+    maintainers = with maintainers; [
+      leenaars
+      SuperSandro2000
+    ];
     license = licenses.agpl3Only;
   };
 }

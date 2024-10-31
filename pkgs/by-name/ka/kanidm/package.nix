@@ -1,26 +1,27 @@
-{ stdenv
-, lib
-, formats
-, nixosTests
-, rustPlatform
-, fetchFromGitHub
-, installShellFiles
-, nix-update-script
-, pkg-config
-, udev
-, openssl
-, sqlite
-, pam
-, bashInteractive
-, rust-jemalloc-sys
-, kanidm
-# If this is enabled, kanidm will be built with two patches allowing both
-# oauth2 basic secrets and admin credentials to be provisioned.
-# This is NOT officially supported (and will likely never be),
-# see https://github.com/kanidm/kanidm/issues/1747.
-# Please report any provisioning-related errors to
-# https://github.com/oddlama/kanidm-provision/issues/ instead.
-, enableSecretProvisioning ? false
+{
+  stdenv,
+  lib,
+  formats,
+  nixosTests,
+  rustPlatform,
+  fetchFromGitHub,
+  installShellFiles,
+  nix-update-script,
+  pkg-config,
+  udev,
+  openssl,
+  sqlite,
+  pam,
+  bashInteractive,
+  rust-jemalloc-sys,
+  kanidm,
+  # If this is enabled, kanidm will be built with two patches allowing both
+  # oauth2 basic secrets and admin credentials to be provisioned.
+  # This is NOT officially supported (and will likely never be),
+  # see https://github.com/kanidm/kanidm/issues/1747.
+  # Please report any provisioning-related errors to
+  # https://github.com/oddlama/kanidm-provision/issues/ instead.
+  enableSecretProvisioning ? false,
 }:
 
 let
@@ -95,7 +96,10 @@ rustPlatform.buildRustPackage rec {
   # Not sure what pathological case it hits when compiling tests with LTO,
   # but disabling it takes the total `cargo check` time from 40 minutes to
   # around 5 on a 16-core machine.
-  cargoTestFlags = ["--config" ''profile.release.lto="off"''];
+  cargoTestFlags = [
+    "--config"
+    ''profile.release.lto="off"''
+  ];
 
   preFixup = ''
     installShellCompletion \
@@ -133,6 +137,9 @@ rustPlatform.buildRustPackage rec {
     homepage = "https://github.com/kanidm/kanidm";
     license = licenses.mpl20;
     platforms = platforms.linux;
-    maintainers = with maintainers; [ adamcstephens Flakebi ];
+    maintainers = with maintainers; [
+      adamcstephens
+      Flakebi
+    ];
   };
 }

@@ -1,12 +1,29 @@
-{ gcc9Stdenv, fetchurl, autoconf, automake, pkg-config, lib
-, perl, flex, bison, readline, libexif
-, x11Support ? true, SDL
-, svgSupport ? true, inkscape
-, asciiArtSupport ? true, aalib
-, gifSupport ? true, giflib
-, tiffSupport ? true, libtiff
-, jpegSupport ? true, libjpeg
-, pngSupport ? true, libpng
+{
+  gcc9Stdenv,
+  fetchurl,
+  autoconf,
+  automake,
+  pkg-config,
+  lib,
+  perl,
+  flex,
+  bison,
+  readline,
+  libexif,
+  x11Support ? true,
+  SDL,
+  svgSupport ? true,
+  inkscape,
+  asciiArtSupport ? true,
+  aalib,
+  gifSupport ? true,
+  giflib,
+  tiffSupport ? true,
+  libtiff,
+  jpegSupport ? true,
+  libjpeg,
+  pngSupport ? true,
+  libpng,
 }:
 
 gcc9Stdenv.mkDerivation rec {
@@ -19,14 +36,24 @@ gcc9Stdenv.mkDerivation rec {
   };
 
   postPatch = ''
-   substituteInPlace doc/vim2html.pl \
-     --replace /usr/bin/perl ${perl}/bin/perl
+    substituteInPlace doc/vim2html.pl \
+      --replace /usr/bin/perl ${perl}/bin/perl
   '';
 
-  nativeBuildInputs = [ autoconf automake pkg-config ];
+  nativeBuildInputs = [
+    autoconf
+    automake
+    pkg-config
+  ];
 
   buildInputs =
-    [ perl flex bison readline libexif ]
+    [
+      perl
+      flex
+      bison
+      readline
+      libexif
+    ]
     ++ lib.optional x11Support SDL
     ++ lib.optional svgSupport inkscape
     ++ lib.optional asciiArtSupport aalib

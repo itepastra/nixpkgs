@@ -1,24 +1,25 @@
-{ lib
-, stdenv
-, callPackage
-, fetchFromGitea
-, libGL
-, libX11
-, libevdev
-, libinput
-, libxkbcommon
-, pixman
-, pkg-config
-, scdoc
-, udev
-, wayland
-, wayland-protocols
-, wayland-scanner
-, wlroots_0_18
-, xwayland
-, zig_0_13
-, withManpages ? true
-, xwaylandSupport ? true
+{
+  lib,
+  stdenv,
+  callPackage,
+  fetchFromGitea,
+  libGL,
+  libX11,
+  libevdev,
+  libinput,
+  libxkbcommon,
+  pixman,
+  pkg-config,
+  scdoc,
+  udev,
+  wayland,
+  wayland-protocols,
+  wayland-scanner,
+  wlroots_0_18,
+  xwayland,
+  zig_0_13,
+  withManpages ? true,
+  xwaylandSupport ? true,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -43,8 +44,7 @@ stdenv.mkDerivation (finalAttrs: {
     wayland-scanner
     xwayland
     zig_0_13.hook
-  ]
-  ++ lib.optional withManpages scdoc;
+  ] ++ lib.optional withManpages scdoc;
 
   buildInputs = [
     libGL

@@ -1,4 +1,9 @@
-{ lib, fetchFromGitHub, buildGoModule, nixosTests }:
+{
+  lib,
+  fetchFromGitHub,
+  buildGoModule,
+  nixosTests,
+}:
 
 buildGoModule rec {
   pname = "quorum";
@@ -18,9 +23,14 @@ buildGoModule rec {
     "cmd/bootnode"
   ];
 
-  ldflags = [ "-s" "-w" ];
+  ldflags = [
+    "-s"
+    "-w"
+  ];
 
-  passthru.tests = { inherit (nixosTests) quorum; };
+  passthru.tests = {
+    inherit (nixosTests) quorum;
+  };
 
   meta = with lib; {
     description = "Permissioned implementation of Ethereum supporting data privacy";

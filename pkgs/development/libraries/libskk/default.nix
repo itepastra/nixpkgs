@@ -1,7 +1,18 @@
-{ lib, stdenv, fetchFromGitHub,
-  libtool, gettext, pkg-config,
-  vala, gnome-common, gobject-introspection,
-  libgee, json-glib, skkDictionaries, libxkbcommon }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  libtool,
+  gettext,
+  pkg-config,
+  vala,
+  gnome-common,
+  gobject-introspection,
+  libgee,
+  json-glib,
+  skkDictionaries,
+  libxkbcommon,
+}:
 
 stdenv.mkDerivation rec {
   pname = "libskk";
@@ -15,8 +26,18 @@ stdenv.mkDerivation rec {
   };
 
   buildInputs = [ libxkbcommon ];
-  nativeBuildInputs = [ vala gnome-common gobject-introspection libtool gettext pkg-config ];
-  propagatedBuildInputs = [ libgee json-glib ];
+  nativeBuildInputs = [
+    vala
+    gnome-common
+    gobject-introspection
+    libtool
+    gettext
+    pkg-config
+  ];
+  propagatedBuildInputs = [
+    libgee
+    json-glib
+  ];
 
   preConfigure = ''
     ./autogen.sh

@@ -1,11 +1,18 @@
 # Udisks daemon.
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.services.udisks2;
   settingsFormat = pkgs.formats.ini {
-    listToValue = lib.concatMapStringsSep "," (lib.generators.mkValueStringDefault {});
+    listToValue = lib.concatMapStringsSep "," (lib.generators.mkValueStringDefault { });
   };
-  configFiles = lib.mapAttrs (name: value: (settingsFormat.generate name value)) (lib.mapAttrs' (name: value: lib.nameValuePair name value ) config.services.udisks2.settings);
+  configFiles = lib.mapAttrs (name: value: (settingsFormat.generate name value)) (
+    lib.mapAttrs' (name: value: lib.nameValuePair name value) config.services.udisks2.settings
+  );
 in
 
 {
@@ -43,13 +50,13 @@ in
           };
         };
         example = lib.literalExpression ''
-        {
-          "WDC-WD10EZEX-60M2NA0-WD-WCC3F3SJ0698.conf" = {
-            ATA = {
-              StandbyTimeout = 50;
+          {
+            "WDC-WD10EZEX-60M2NA0-WD-WCC3F3SJ0698.conf" = {
+              ATA = {
+                StandbyTimeout = 50;
+              };
             };
           };
-        };
         '';
         description = ''
           Options passed to udisksd.
@@ -62,30 +69,34 @@ in
 
   };
 
-
   ###### implementation
 
   config = lib.mkIf config.services.udisks2.enable {
 
     environment.systemPackages = [ pkgs.udisks2 ];
 
-    environment.etc = (lib.mapAttrs' (name: value: lib.nameValuePair "udisks2/${name}" { source = value; } ) configFiles) // (
-    let
-      libblockdev = pkgs.udisks2.libblockdev;
-      majorVer = lib.versions.major libblockdev.version;
-    in {
-      # We need to make sure /etc/libblockdev/@major_ver@/conf.d is populated to avoid
-      # warnings
-      "libblockdev/${majorVer}/conf.d/00-default.cfg".source = "${libblockdev}/etc/libblockdev/${majorVer}/conf.d/00-default.cfg";
-      "libblockdev/${majorVer}/conf.d/10-lvm-dbus.cfg".source = "${libblockdev}/etc/libblockdev/${majorVer}/conf.d/10-lvm-dbus.cfg";
-    });
+    environment.etc =
+      (lib.mapAttrs' (name: value: lib.nameValuePair "udisks2/${name}" { source = value; }) configFiles)
+      // (
+        let
+          libblockdev = pkgs.udisks2.libblockdev;
+          majorVer = lib.versions.major libblockdev.version;
+        in
+        {
+          # We need to make sure /etc/libblockdev/@major_ver@/conf.d is populated to avoid
+          # warnings
+          "libblockdev/${majorVer}/conf.d/00-default.cfg".source = "${libblockdev}/etc/libblockdev/${majorVer}/conf.d/00-default.cfg";
+          "libblockdev/${majorVer}/conf.d/10-lvm-dbus.cfg".source = "${libblockdev}/etc/libblockdev/${majorVer}/conf.d/10-lvm-dbus.cfg";
+        }
+      );
 
     security.polkit.enable = true;
 
     services.dbus.packages = [ pkgs.udisks2 ];
 
-    systemd.tmpfiles.rules = [ "d /var/lib/udisks2 0755 root root -" ]
-      ++ lib.optional cfg.mountOnMedia "D! /media 0755 root root -";
+    systemd.tmpfiles.rules = [
+      "d /var/lib/udisks2 0755 root root -"
+    ] ++ lib.optional cfg.mountOnMedia "D! /media 0755 root root -";
 
     services.udev.packages = [ pkgs.udisks2 ];
 

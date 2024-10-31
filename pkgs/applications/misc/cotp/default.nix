@@ -1,9 +1,10 @@
-{ lib
-, stdenv
-, rustPlatform
-, fetchFromGitHub
-, AppKit
-, libxcb
+{
+  lib,
+  stdenv,
+  rustPlatform,
+  fetchFromGitHub,
+  AppKit,
+  libxcb,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -19,7 +20,8 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-o9LRXbx77EXXO7rEmpBrx2nommJgG0ikw1YzdeB0Gug=";
 
-  buildInputs = lib.optionals stdenv.hostPlatform.isLinux [ libxcb ]
+  buildInputs =
+    lib.optionals stdenv.hostPlatform.isLinux [ libxcb ]
     ++ lib.optionals stdenv.hostPlatform.isDarwin [ AppKit ];
 
   meta = with lib; {

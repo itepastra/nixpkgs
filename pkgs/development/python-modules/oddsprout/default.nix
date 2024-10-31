@@ -4,7 +4,7 @@
   fetchFromGitHub,
   poetry-core,
   dahlia,
-  ixia
+  ixia,
 }:
 
 buildPythonPackage rec {
@@ -20,7 +20,10 @@ buildPythonPackage rec {
   };
 
   build-system = [ poetry-core ];
-  dependencies = [ dahlia ixia ];
+  dependencies = [
+    dahlia
+    ixia
+  ];
 
   pythonImportsCheck = [ "oddsprout" ];
 

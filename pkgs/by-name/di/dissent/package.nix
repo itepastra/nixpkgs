@@ -1,15 +1,16 @@
-{ buildGoModule
-, fetchFromGitHub
-, gobject-introspection
-, gst_all_1
-, lib
-, libadwaita
-, libcanberra-gtk3
-, pkg-config
-, sound-theme-freedesktop
-, libspelling
-, gtksourceview5
-, wrapGAppsHook4
+{
+  buildGoModule,
+  fetchFromGitHub,
+  gobject-introspection,
+  gst_all_1,
+  lib,
+  libadwaita,
+  libcanberra-gtk3,
+  pkg-config,
+  sound-theme-freedesktop,
+  libspelling,
+  gtksourceview5,
+  wrapGAppsHook4,
 }:
 
 buildGoModule rec {
@@ -58,8 +59,15 @@ buildGoModule rec {
   meta = with lib; {
     description = "A third-party Discord client designed for a smooth, native experience (formerly gtkcord4)";
     homepage = "https://github.com/diamondburned/dissent";
-    license = with licenses; [ gpl3Plus cc0 ];
+    license = with licenses; [
+      gpl3Plus
+      cc0
+    ];
     mainProgram = "dissent";
-    maintainers = with maintainers; [ hmenke urandom aleksana ];
+    maintainers = with maintainers; [
+      hmenke
+      urandom
+      aleksana
+    ];
   };
 }

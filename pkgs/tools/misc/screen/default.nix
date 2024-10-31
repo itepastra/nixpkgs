@@ -1,11 +1,12 @@
-{ lib
-, stdenv
-, fetchurl
-, autoreconfHook
-, ncurses
-, libxcrypt
-, utmp
-, pam ? null
+{
+  lib,
+  stdenv,
+  fetchurl,
+  autoreconfHook,
+  ncurses,
+  libxcrypt,
+  utmp,
+  pam ? null,
 }:
 
 stdenv.mkDerivation rec {
@@ -31,8 +32,7 @@ stdenv.mkDerivation rec {
   buildInputs = [
     ncurses
     libxcrypt
-  ] ++ lib.optional stdenv.hostPlatform.isLinux pam
-    ++ lib.optional stdenv.hostPlatform.isDarwin utmp;
+  ] ++ lib.optional stdenv.hostPlatform.isLinux pam ++ lib.optional stdenv.hostPlatform.isDarwin utmp;
 
   doCheck = true;
 

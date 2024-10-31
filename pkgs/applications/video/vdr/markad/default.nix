@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, vdr
-, fetchFromGitHub
-, ffmpeg
+{
+  lib,
+  stdenv,
+  vdr,
+  fetchFromGitHub,
+  ffmpeg,
 }:
 stdenv.mkDerivation rec {
   pname = "vdr-markad";
@@ -15,7 +16,10 @@ stdenv.mkDerivation rec {
     rev = "V${version}";
   };
 
-  buildInputs = [ vdr ffmpeg ];
+  buildInputs = [
+    vdr
+    ffmpeg
+  ];
 
   postPatch = ''
     substituteInPlace command/Makefile --replace '/usr' ""

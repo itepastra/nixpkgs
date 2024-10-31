@@ -1,7 +1,14 @@
-{ config, lib, pkgs, ... }:
-let cfg = config.hardware.spacenavd;
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  cfg = config.hardware.spacenavd;
 
-in {
+in
+{
 
   options = {
     hardware.spacenavd = {

@@ -1,7 +1,8 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
-, nixosTests
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  nixosTests,
 }:
 
 buildGoModule rec {
@@ -25,7 +26,9 @@ buildGoModule rec {
     cp -r $src/static/* $out/lib/legit/static
   '';
 
-  passthru.tests = { inherit (nixosTests) legit; };
+  passthru.tests = {
+    inherit (nixosTests) legit;
+  };
 
   meta = {
     description = "Web frontend for git";

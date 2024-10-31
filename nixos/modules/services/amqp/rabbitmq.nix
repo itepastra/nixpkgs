@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.services.rabbitmq;
 
@@ -13,11 +18,18 @@ in
 {
 
   imports = [
-    (lib.mkRemovedOptionModule [ "services" "rabbitmq" "cookie" ] ''
-      This option wrote the Erlang cookie to the store, while it should be kept secret.
-      Please remove it from your NixOS configuration and deploy a cookie securely instead.
-      The renamed `unsafeCookie` must ONLY be used in isolated non-production environments such as NixOS VM tests.
-    '')
+    (lib.mkRemovedOptionModule
+      [
+        "services"
+        "rabbitmq"
+        "cookie"
+      ]
+      ''
+        This option wrote the Erlang cookie to the store, while it should be kept secret.
+        Please remove it from your NixOS configuration and deploy a cookie securely instead.
+        The renamed `unsafeCookie` must ONLY be used in isolated non-production environments such as NixOS VM tests.
+      ''
+    )
   ];
 
   ###### interface
@@ -152,7 +164,6 @@ in
     };
   };
 
-
   ###### implementation
   config = lib.mkIf cfg.enable {
 
@@ -171,12 +182,14 @@ in
 
     users.groups.rabbitmq.gid = config.ids.gids.rabbitmq;
 
-    services.rabbitmq.configItems = {
-      "listeners.tcp.1" = lib.mkDefault "${cfg.listenAddress}:${toString cfg.port}";
-    } // lib.optionalAttrs cfg.managementPlugin.enable {
-      "management.tcp.port" = toString cfg.managementPlugin.port;
-      "management.tcp.ip" = cfg.listenAddress;
-    };
+    services.rabbitmq.configItems =
+      {
+        "listeners.tcp.1" = lib.mkDefault "${cfg.listenAddress}:${toString cfg.port}";
+      }
+      // lib.optionalAttrs cfg.managementPlugin.enable {
+        "management.tcp.port" = toString cfg.managementPlugin.port;
+        "management.tcp.ip" = cfg.listenAddress;
+      };
 
     services.rabbitmq.plugins = lib.optional cfg.managementPlugin.enable "rabbitmq_management";
 
@@ -184,8 +197,14 @@ in
       description = "RabbitMQ Server";
 
       wantedBy = [ "multi-user.target" ];
-      after = [ "network.target" "epmd.socket" ];
-      wants = [ "network.target" "epmd.socket" ];
+      after = [
+        "network.target"
+        "epmd.socket"
+      ];
+      wants = [
+        "network.target"
+        "epmd.socket"
+      ];
 
       path = [
         cfg.package

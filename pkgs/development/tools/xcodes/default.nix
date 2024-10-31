@@ -1,14 +1,15 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, swift
-, swiftpm
-, swiftpm2nix
-, makeWrapper
-, CryptoKit
-, LocalAuthentication
-, libcompression
-, aria2
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  swift,
+  swiftpm,
+  swiftpm2nix,
+  makeWrapper,
+  CryptoKit,
+  LocalAuthentication,
+  libcompression,
+  aria2,
 }:
 let
   generated = swiftpm2nix.helpers ./generated;
@@ -24,7 +25,11 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-vksfvrx0TqtjcOHn38Ey3P6jIFYF4CbD3SVICVFINSU=";
   };
 
-  nativeBuildInputs = [ swift swiftpm makeWrapper ];
+  nativeBuildInputs = [
+    swift
+    swiftpm
+    makeWrapper
+  ];
 
   buildInputs = [
     CryptoKit
@@ -54,7 +59,10 @@ stdenv.mkDerivation (finalAttrs: {
       # unxip
       lgpl3Only
     ];
-    maintainers = with maintainers; [ _0x120581f emilytrau ];
+    maintainers = with maintainers; [
+      _0x120581f
+      emilytrau
+    ];
     platforms = platforms.darwin;
   };
 })

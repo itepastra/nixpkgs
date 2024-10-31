@@ -165,7 +165,6 @@ buildPythonPackage {
   inherit version;
   pyproject = true;
 
-
   disabled = pythonOlder "3.8";
 
   src = fetchFromGitHub {

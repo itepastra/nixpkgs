@@ -1,32 +1,35 @@
-{ lib
-, stdenv
-, fetchFromGitLab
-, makeWrapper
-, pkg-config
-, libxslt
-, meson
-, ninja
-, python3
-, dbus
-, umockdev
-, libeatmydata
-, gtk-doc
-, docbook-xsl-nons
-, udev
-, libgudev
-, libusb1
-, glib
-, gettext
-, nixosTests
-, useIMobileDevice ? true
-, libimobiledevice
-, withDocs ? withIntrospection
-, mesonEmulatorHook
-, withIntrospection ? lib.meta.availableOn stdenv.hostPlatform gobject-introspection && stdenv.hostPlatform.emulatorAvailable buildPackages
-, buildPackages
-, gobject-introspection
-, withSystemd ? lib.meta.availableOn stdenv.hostPlatform systemd
-, systemd
+{
+  lib,
+  stdenv,
+  fetchFromGitLab,
+  makeWrapper,
+  pkg-config,
+  libxslt,
+  meson,
+  ninja,
+  python3,
+  dbus,
+  umockdev,
+  libeatmydata,
+  gtk-doc,
+  docbook-xsl-nons,
+  udev,
+  libgudev,
+  libusb1,
+  glib,
+  gettext,
+  nixosTests,
+  useIMobileDevice ? true,
+  libimobiledevice,
+  withDocs ? withIntrospection,
+  mesonEmulatorHook,
+  withIntrospection ?
+    lib.meta.availableOn stdenv.hostPlatform gobject-introspection
+    && stdenv.hostPlatform.emulatorAvailable buildPackages,
+  buildPackages,
+  gobject-introspection,
+  withSystemd ? lib.meta.availableOn stdenv.hostPlatform systemd,
+  systemd,
 }:
 
 assert withDocs -> withIntrospection;
@@ -35,9 +38,10 @@ stdenv.mkDerivation (finalAttrs: {
   pname = "upower";
   version = "1.90.4";
 
-  outputs = [ "out" "dev" ]
-    ++ lib.optionals withDocs [ "devdoc" ]
-    ++ lib.optionals withIntrospection [ "installedTests" ];
+  outputs = [
+    "out"
+    "dev"
+  ] ++ lib.optionals withDocs [ "devdoc" ] ++ lib.optionals withIntrospection [ "installedTests" ];
 
   src = fetchFromGitLab {
     domain = "gitlab.freedesktop.org";
@@ -47,13 +51,15 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-5twHuDLisVF07Y5KYwlqWMi12+p6UpARJvoBN/+tX2o=";
   };
 
-  patches = lib.optionals (stdenv.hostPlatform.system == "i686-linux") [
-    # Remove when this is fixed upstream:
-    # https://gitlab.freedesktop.org/upower/upower/-/issues/214
-    ./i686-test-remove-battery-check.patch
-  ] ++ [
-    ./installed-tests-path.patch
-  ];
+  patches =
+    lib.optionals (stdenv.hostPlatform.system == "i686-linux") [
+      # Remove when this is fixed upstream:
+      # https://gitlab.freedesktop.org/upower/upower/-/issues/214
+      ./i686-test-remove-battery-check.patch
+    ]
+    ++ [
+      ./installed-tests-path.patch
+    ];
 
   strictDeps = true;
 
@@ -61,55 +67,65 @@ stdenv.mkDerivation (finalAttrs: {
     pkg-config
   ];
 
-  nativeBuildInputs = [
-    meson
-    ninja
-    python3
-    docbook-xsl-nons
-    gettext
-    libxslt
-    makeWrapper
-    pkg-config
-    glib
-  ] ++ lib.optionals withIntrospection [
-    gobject-introspection
-  ] ++ lib.optionals withDocs [
-    gtk-doc
-  ] ++ lib.optionals (withDocs && !stdenv.buildPlatform.canExecute stdenv.hostPlatform) [
-    mesonEmulatorHook
-  ];
+  nativeBuildInputs =
+    [
+      meson
+      ninja
+      python3
+      docbook-xsl-nons
+      gettext
+      libxslt
+      makeWrapper
+      pkg-config
+      glib
+    ]
+    ++ lib.optionals withIntrospection [
+      gobject-introspection
+    ]
+    ++ lib.optionals withDocs [
+      gtk-doc
+    ]
+    ++ lib.optionals (withDocs && !stdenv.buildPlatform.canExecute stdenv.hostPlatform) [
+      mesonEmulatorHook
+    ];
 
-  buildInputs = [
-    libgudev
-    libusb1
-    udev
-  ] ++ lib.optionals withIntrospection [
-    # Duplicate from nativeCheckInputs until https://github.com/NixOS/nixpkgs/issues/161570 is solved
-    umockdev
+  buildInputs =
+    [
+      libgudev
+      libusb1
+      udev
+    ]
+    ++ lib.optionals withIntrospection [
+      # Duplicate from nativeCheckInputs until https://github.com/NixOS/nixpkgs/issues/161570 is solved
+      umockdev
 
-    # For installed tests.
-    (python3.withPackages (pp: [
-      pp.dbus-python
-      pp.python-dbusmock
-      pp.pygobject3
-      pp.packaging
-    ]))
-  ] ++ lib.optionals withSystemd [
-    systemd
-  ] ++ lib.optionals useIMobileDevice [
-    libimobiledevice
-  ];
+      # For installed tests.
+      (python3.withPackages (pp: [
+        pp.dbus-python
+        pp.python-dbusmock
+        pp.pygobject3
+        pp.packaging
+      ]))
+    ]
+    ++ lib.optionals withSystemd [
+      systemd
+    ]
+    ++ lib.optionals useIMobileDevice [
+      libimobiledevice
+    ];
 
-  nativeCheckInputs = [
-    libeatmydata
-  ] ++ lib.optionals withIntrospection [
-    python3.pkgs.dbus-python
-    python3.pkgs.python-dbusmock
-    python3.pkgs.pygobject3
-    dbus
-    umockdev
-    python3.pkgs.packaging
-  ];
+  nativeCheckInputs =
+    [
+      libeatmydata
+    ]
+    ++ lib.optionals withIntrospection [
+      python3.pkgs.dbus-python
+      python3.pkgs.python-dbusmock
+      python3.pkgs.pygobject3
+      dbus
+      umockdev
+      python3.pkgs.packaging
+    ];
 
   propagatedBuildInputs = [
     glib
@@ -187,13 +203,17 @@ stdenv.mkDerivation (finalAttrs: {
 
   postFixup = lib.optionalString withIntrospection ''
     wrapProgram "$installedTests/libexec/upower/integration-test.py" \
-      --prefix GI_TYPELIB_PATH : "${lib.makeSearchPath "lib/girepository-1.0" [
-        "$out"
-        umockdev.out
-      ]}" \
-      --prefix PATH : "${lib.makeBinPath [
-        umockdev
-      ]}"
+      --prefix GI_TYPELIB_PATH : "${
+        lib.makeSearchPath "lib/girepository-1.0" [
+          "$out"
+          umockdev.out
+        ]
+      }" \
+      --prefix PATH : "${
+        lib.makeBinPath [
+          umockdev
+        ]
+      }"
   '';
 
   env = {

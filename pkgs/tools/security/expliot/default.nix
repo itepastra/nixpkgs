@@ -1,6 +1,7 @@
-{ lib
-, fetchFromGitLab
-, python3
+{
+  lib,
+  fetchFromGitLab,
+  python3,
 }:
 let
   py = python3.override {
@@ -40,8 +41,9 @@ buildPythonApplication rec {
     "zeroconf"
   ];
 
-  nativeBuildInputs = [
-  ];
+  nativeBuildInputs =
+    [
+    ];
 
   propagatedBuildInputs = [
     aiocoap

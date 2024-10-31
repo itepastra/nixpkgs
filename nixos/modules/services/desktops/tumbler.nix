@@ -1,5 +1,10 @@
 # Tumbler
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
 
   cfg = config.services.tumbler;
@@ -9,9 +14,11 @@ in
 {
 
   imports = [
-    (lib.mkRemovedOptionModule
-      [ "services" "tumbler" "package" ]
-      "")
+    (lib.mkRemovedOptionModule [
+      "services"
+      "tumbler"
+      "package"
+    ] "")
   ];
 
   meta = with lib; {
@@ -29,7 +36,6 @@ in
     };
 
   };
-
 
   ###### implementation
 

@@ -1,4 +1,13 @@
-{ lib, stdenv, fetchFromGitHub, autoreconfHook, installShellFiles, util-linux, binlore, swapspace }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  autoreconfHook,
+  installShellFiles,
+  util-linux,
+  binlore,
+  swapspace,
+}:
 
 stdenv.mkDerivation rec {
   pname = "swapspace";

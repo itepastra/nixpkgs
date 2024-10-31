@@ -1,25 +1,26 @@
-{ lib
-, stdenv
-, fetchFromGitLab
-, fetchpatch
-, autoreconfHook269
-, autoconf-archive
-, pkg-config
-, gtk3
-, fribidi
-, libpng
-, popt
-, libgsf
-, enchant
-, wv
-, librsvg
-, bzip2
-, libjpeg
-, perl
-, boost
-, libxslt
-, goffice
-, wrapGAppsHook3
+{
+  lib,
+  stdenv,
+  fetchFromGitLab,
+  fetchpatch,
+  autoreconfHook269,
+  autoconf-archive,
+  pkg-config,
+  gtk3,
+  fribidi,
+  libpng,
+  popt,
+  libgsf,
+  enchant,
+  wv,
+  librsvg,
+  bzip2,
+  libjpeg,
+  perl,
+  boost,
+  libxslt,
+  goffice,
+  wrapGAppsHook3,
 }:
 
 stdenv.mkDerivation rec {
@@ -83,6 +84,10 @@ stdenv.mkDerivation rec {
     homepage = "https://gitlab.gnome.org/World/AbiWord/";
     license = licenses.gpl3;
     platforms = platforms.linux;
-    maintainers = with maintainers; [ pSub ylwghst sna ];
+    maintainers = with maintainers; [
+      pSub
+      ylwghst
+      sna
+    ];
   };
 }

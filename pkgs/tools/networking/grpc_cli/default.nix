@@ -1,4 +1,13 @@
-{ lib, stdenv, fetchFromGitHub, automake, cmake, autoconf, curl, numactl }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  automake,
+  cmake,
+  autoconf,
+  curl,
+  numactl,
+}:
 
 stdenv.mkDerivation rec {
   pname = "grpc_cli";
@@ -10,8 +19,15 @@ stdenv.mkDerivation rec {
     hash = "sha256-nka7ZzyZIeEAPaz7v/8RAeo9XmkgrOrHpor3siAx7Ec=";
     fetchSubmodules = true;
   };
-  nativeBuildInputs = [ automake cmake autoconf ];
-  buildInputs = [ curl numactl ];
+  nativeBuildInputs = [
+    automake
+    cmake
+    autoconf
+  ];
+  buildInputs = [
+    curl
+    numactl
+  ];
   cmakeFlags = [ "-DgRPC_BUILD_TESTS=ON" ];
   makeFlags = [ "grpc_cli" ];
   env.NIX_CFLAGS_COMPILE = lib.optionalString stdenv.hostPlatform.isAarch64 "-Wno-error=format-security";

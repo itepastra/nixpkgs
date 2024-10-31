@@ -1,26 +1,27 @@
-{ stdenv
-, lib
-, fetchFromGitLab
-, nix-update-script
-, cargo
-, meson
-, ninja
-, rustPlatform
-, rustc
-, pkg-config
-, glib
-, gtk4
-, gtksourceview5
-, libadwaita
-, gst_all_1
-, desktop-file-utils
-, appstream-glib
-, openssl
-, pipewire
-, libshumate
-, wrapGAppsHook4
-, sqlite
-, xdg-desktop-portal
+{
+  stdenv,
+  lib,
+  fetchFromGitLab,
+  nix-update-script,
+  cargo,
+  meson,
+  ninja,
+  rustPlatform,
+  rustc,
+  pkg-config,
+  glib,
+  gtk4,
+  gtksourceview5,
+  libadwaita,
+  gst_all_1,
+  desktop-file-utils,
+  appstream-glib,
+  openssl,
+  pipewire,
+  libshumate,
+  wrapGAppsHook4,
+  sqlite,
+  xdg-desktop-portal,
 }:
 
 stdenv.mkDerivation rec {
@@ -58,22 +59,24 @@ stdenv.mkDerivation rec {
     wrapGAppsHook4
   ];
 
-  buildInputs = [
-    glib
-    gtk4
-    gtksourceview5
-    libadwaita
-    openssl
-    pipewire
-    libshumate
-    sqlite
-    xdg-desktop-portal
-  ] ++ (with gst_all_1; [
-    gstreamer
-    gst-plugins-base
-    gst-plugins-bad
-    gst-plugins-good
-  ]);
+  buildInputs =
+    [
+      glib
+      gtk4
+      gtksourceview5
+      libadwaita
+      openssl
+      pipewire
+      libshumate
+      sqlite
+      xdg-desktop-portal
+    ]
+    ++ (with gst_all_1; [
+      gstreamer
+      gst-plugins-base
+      gst-plugins-bad
+      gst-plugins-good
+    ]);
 
   passthru = {
     updateScript = nix-update-script { };

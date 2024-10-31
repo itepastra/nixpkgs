@@ -1,19 +1,21 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, nodejs_20
-, perl
-, postgresql
-, jitSupport
-# For test
-, runCommand
-, coreutils
-, gnugrep
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  nodejs_20,
+  perl,
+  postgresql,
+  jitSupport,
+  # For test
+  runCommand,
+  coreutils,
+  gnugrep,
 }:
 
 let
   libv8 = nodejs_20.libv8;
-in stdenv.mkDerivation (finalAttrs: {
+in
+stdenv.mkDerivation (finalAttrs: {
   pname = "plv8";
   version = "3.2.3";
 
@@ -74,13 +76,16 @@ in stdenv.mkDerivation (finalAttrs: {
         postgresqlWithSelf = postgresql.withPackages (_: [
           finalAttrs.finalPackage
         ]);
-      in {
-        smoke = runCommand "plv8-smoke-test" {} ''
-          export PATH=${lib.makeBinPath [
-            postgresqlWithSelf
-            coreutils
-            gnugrep
-          ]}
+      in
+      {
+        smoke = runCommand "plv8-smoke-test" { } ''
+          export PATH=${
+            lib.makeBinPath [
+              postgresqlWithSelf
+              coreutils
+              gnugrep
+            ]
+          }
           db="$PWD/testdb"
           initdb "$db"
           postgres -k "$db" -D "$db" &
@@ -103,7 +108,13 @@ in stdenv.mkDerivation (finalAttrs: {
 
         regression = stdenv.mkDerivation {
           name = "plv8-regression";
-          inherit (finalAttrs) src patches nativeBuildInputs buildInputs dontConfigure;
+          inherit (finalAttrs)
+            src
+            patches
+            nativeBuildInputs
+            buildInputs
+            dontConfigure
+            ;
 
           buildPhase = ''
             runHook preBuild
@@ -137,7 +148,10 @@ in stdenv.mkDerivation (finalAttrs: {
     homepage = "https://plv8.github.io/";
     changelog = "https://github.com/plv8/plv8/blob/r${finalAttrs.version}/Changes";
     maintainers = [ ];
-    platforms = [ "x86_64-linux" "aarch64-linux" ];
+    platforms = [
+      "x86_64-linux"
+      "aarch64-linux"
+    ];
     license = licenses.postgresql;
     broken = jitSupport;
   };

@@ -23,8 +23,9 @@ buildPythonPackage rec {
     hash = "sha256-/al8GNow2g9ypafoDz7uNDsJ9MIG2tbFfJRPss0YVg4=";
   };
 
-  nativeBuildInputs = [
-  ];
+  nativeBuildInputs =
+    [
+    ];
 
   pythonRelaxDeps = [
     "tensorflow"

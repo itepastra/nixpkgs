@@ -1,6 +1,11 @@
-{ lib, python3, fetchPypi
-, sassc, hyperkitty, postorius
-, nixosTests
+{
+  lib,
+  python3,
+  fetchPypi,
+  sassc,
+  hyperkitty,
+  postorius,
+  nixosTests,
 }:
 
 with python3.pkgs;
@@ -26,7 +31,11 @@ buildPythonPackage rec {
   '';
 
   nativeBuildInputs = [ pdm-backend ];
-  propagatedBuildInputs = [ hyperkitty postorius whoosh ];
+  propagatedBuildInputs = [
+    hyperkitty
+    postorius
+    whoosh
+  ];
 
   # Tries to check runtime configuration.
   doCheck = false;
@@ -35,13 +44,18 @@ buildPythonPackage rec {
     "--suffix PATH : ${lib.makeBinPath [ sassc ]}"
   ];
 
-  passthru.tests = { inherit (nixosTests) mailman; };
+  passthru.tests = {
+    inherit (nixosTests) mailman;
+  };
 
   meta = with lib; {
     homepage = "https://gitlab.com/mailman/mailman-web";
     description = "Django project for Mailman 3 web interface";
     mainProgram = "mailman-web";
     license = licenses.gpl3Plus;
-    maintainers = with maintainers; [ qyliss m1cr0man ];
+    maintainers = with maintainers; [
+      qyliss
+      m1cr0man
+    ];
   };
 }

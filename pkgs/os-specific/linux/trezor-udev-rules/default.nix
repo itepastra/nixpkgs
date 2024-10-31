@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchurl, nixosTests }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  nixosTests,
+}:
 
 stdenv.mkDerivation rec {
   pname = "trezor-udev-rules";
@@ -23,7 +28,9 @@ stdenv.mkDerivation rec {
     cp 51-trezor.rules $out/lib/udev/rules.d/51-trezor.rules
   '';
 
-  passthru.tests = { inherit (nixosTests) trezord; };
+  passthru.tests = {
+    inherit (nixosTests) trezord;
+  };
 
   meta = with lib; {
     description = "Udev rules for Trezor";

@@ -1,4 +1,11 @@
-{ lib, stdenv, fetchFromGitHub, pkg-config, R, postgresql }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  pkg-config,
+  R,
+  postgresql,
+}:
 
 stdenv.mkDerivation rec {
   pname = "plr";
@@ -7,12 +14,15 @@ stdenv.mkDerivation rec {
   src = fetchFromGitHub {
     owner = "postgres-plr";
     repo = "plr";
-    rev = "REL${builtins.replaceStrings ["."] ["_"] version}";
+    rev = "REL${builtins.replaceStrings [ "." ] [ "_" ] version}";
     sha256 = "sha256-PdvFEmtKfLT/xfaf6obomPR5hKC9F+wqpfi1heBphRk=";
   };
 
   nativeBuildInputs = [ pkg-config ];
-  buildInputs = [ R postgresql ];
+  buildInputs = [
+    R
+    postgresql
+  ];
 
   makeFlags = [ "USE_PGXS=1" ];
 

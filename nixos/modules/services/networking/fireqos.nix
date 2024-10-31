@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.services.fireqos;
   fireqosConfig = pkgs.writeText "fireqos.conf" "${cfg.config}";
-in {
+in
+{
   options.services.fireqos = {
     enable = lib.mkOption {
       type = lib.types.bool;

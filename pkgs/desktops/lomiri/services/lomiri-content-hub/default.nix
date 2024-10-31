@@ -1,30 +1,31 @@
-{ stdenv
-, lib
-, fetchFromGitLab
-, gitUpdater
-, testers
-, cmake
-, cmake-extras
-, dbus-test-runner
-, gettext
-, glib
-, gsettings-qt
-, gtest
-, libapparmor
-, libnotify
-, lomiri-api
-, lomiri-app-launch
-, lomiri-download-manager
-, lomiri-ui-toolkit
-, pkg-config
-, properties-cpp
-, qtbase
-, qtdeclarative
-, qtfeedback
-, qtgraphicaleffects
-, validatePkgConfig
-, wrapGAppsHook3
-, xvfb-run
+{
+  stdenv,
+  lib,
+  fetchFromGitLab,
+  gitUpdater,
+  testers,
+  cmake,
+  cmake-extras,
+  dbus-test-runner,
+  gettext,
+  glib,
+  gsettings-qt,
+  gtest,
+  libapparmor,
+  libnotify,
+  lomiri-api,
+  lomiri-app-launch,
+  lomiri-download-manager,
+  lomiri-ui-toolkit,
+  pkg-config,
+  properties-cpp,
+  qtbase,
+  qtdeclarative,
+  qtfeedback,
+  qtgraphicaleffects,
+  validatePkgConfig,
+  wrapGAppsHook3,
+  xvfb-run,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -104,13 +105,23 @@ stdenv.mkDerivation (finalAttrs: {
     (lib.cmakeBool "ENABLE_UBUNTU_COMPAT" true) # in case something still depends on it
   ];
 
-  preBuild = let
-    listToQtVar = list: suffix: lib.strings.concatMapStringsSep ":" (drv: "${lib.getBin drv}/${suffix}") list;
-  in ''
-    # Executes qmlplugindump
-    export QT_PLUGIN_PATH=${listToQtVar [ qtbase ] qtbase.qtPluginPrefix}
-    export QML2_IMPORT_PATH=${listToQtVar [ qtdeclarative lomiri-ui-toolkit qtfeedback qtgraphicaleffects ] qtbase.qtQmlPrefix}
-  '';
+  preBuild =
+    let
+      listToQtVar =
+        list: suffix: lib.strings.concatMapStringsSep ":" (drv: "${lib.getBin drv}/${suffix}") list;
+    in
+    ''
+      # Executes qmlplugindump
+      export QT_PLUGIN_PATH=${listToQtVar [ qtbase ] qtbase.qtPluginPrefix}
+      export QML2_IMPORT_PATH=${
+        listToQtVar [
+          qtdeclarative
+          lomiri-ui-toolkit
+          qtfeedback
+          qtgraphicaleffects
+        ] qtbase.qtQmlPrefix
+      }
+    '';
 
   doCheck = stdenv.buildPlatform.canExecute stdenv.hostPlatform;
 
@@ -145,7 +156,10 @@ stdenv.mkDerivation (finalAttrs: {
     '';
     homepage = "https://gitlab.com/ubports/development/core/lomiri-content-hub";
     changelog = "https://gitlab.com/ubports/development/core/lomiri-content-hub/-/blob/${finalAttrs.version}/ChangeLog";
-    license = with lib.licenses; [ gpl3Only lgpl3Only ];
+    license = with lib.licenses; [
+      gpl3Only
+      lgpl3Only
+    ];
     mainProgram = "lomiri-content-hub-service";
     maintainers = lib.teams.lomiri.members;
     platforms = lib.platforms.linux;

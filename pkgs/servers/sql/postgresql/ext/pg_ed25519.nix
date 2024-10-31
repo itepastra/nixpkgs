@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchFromGitLab, postgresql }:
+{
+  lib,
+  stdenv,
+  fetchFromGitLab,
+  postgresql,
+}:
 
 stdenv.mkDerivation rec {
   pname = "pg_ed25519";
@@ -31,4 +36,3 @@ stdenv.mkDerivation rec {
     broken = lib.versionAtLeast postgresql.version "16" && stdenv.cc.isClang;
   };
 }
-

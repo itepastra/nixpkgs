@@ -1,10 +1,11 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, rustPlatform
-, Security
-, SystemConfiguration
-, installShellFiles
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  rustPlatform,
+  Security,
+  SystemConfiguration,
+  installShellFiles,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -24,7 +25,8 @@ rustPlatform.buildRustPackage rec {
   doCheck = false;
 
   buildInputs = lib.optionals stdenv.hostPlatform.isDarwin [
-    Security SystemConfiguration
+    Security
+    SystemConfiguration
   ];
 
   nativeBuildInputs = [ installShellFiles ];

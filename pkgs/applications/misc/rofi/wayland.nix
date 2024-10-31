@@ -1,10 +1,11 @@
-{ lib
-, fetchFromGitHub
-, rofi-unwrapped
-, wayland-scanner
-, pkg-config
-, wayland-protocols
-, wayland
+{
+  lib,
+  fetchFromGitHub,
+  rofi-unwrapped,
+  wayland-scanner,
+  pkg-config,
+  wayland-protocols,
+  wayland,
 }:
 
 rofi-unwrapped.overrideAttrs (oldAttrs: rec {
@@ -20,8 +21,14 @@ rofi-unwrapped.overrideAttrs (oldAttrs: rec {
   };
 
   depsBuildBuild = oldAttrs.depsBuildBuild ++ [ pkg-config ];
-  nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ wayland-protocols wayland-scanner ];
-  buildInputs = oldAttrs.buildInputs ++ [ wayland wayland-protocols ];
+  nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [
+    wayland-protocols
+    wayland-scanner
+  ];
+  buildInputs = oldAttrs.buildInputs ++ [
+    wayland
+    wayland-protocols
+  ];
 
   meta = with lib; {
     description = "Window switcher, run dialog and dmenu replacement for Wayland";

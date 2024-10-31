@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
@@ -7,7 +12,16 @@ let
 in
 {
   imports = [
-    (mkRenamedOptionModule [ "services" "plexpy" ] [ "services" "tautulli" ])
+    (mkRenamedOptionModule
+      [
+        "services"
+        "plexpy"
+      ]
+      [
+        "services"
+        "tautulli"
+      ]
+    )
   ];
 
   options = {
@@ -76,7 +90,10 @@ in
     networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall [ cfg.port ];
 
     users.users = mkIf (cfg.user == "plexpy") {
-      plexpy = { group = cfg.group; uid = config.ids.uids.plexpy; };
+      plexpy = {
+        group = cfg.group;
+        uid = config.ids.uids.plexpy;
+      };
     };
   };
 }

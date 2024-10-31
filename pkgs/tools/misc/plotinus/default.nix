@@ -1,14 +1,17 @@
-{ lib, stdenv
-, fetchFromGitHub
-, gettext
-, libxml2
-, pkg-config
-, gtk3
-, cmake
-, ninja
-, vala
-, nixosTests
-, wrapGAppsHook3 }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  gettext,
+  libxml2,
+  pkg-config,
+  gtk3,
+  cmake,
+  ninja,
+  vala,
+  nixosTests,
+  wrapGAppsHook3,
+}:
 
 stdenv.mkDerivation rec {
   pname = "plotinus";
@@ -34,7 +37,9 @@ stdenv.mkDerivation rec {
     gtk3
   ];
 
-  passthru.tests = { inherit (nixosTests) plotinus; };
+  passthru.tests = {
+    inherit (nixosTests) plotinus;
+  };
 
   meta = with lib; {
     description = "Searchable command palette in every modern GTK application";

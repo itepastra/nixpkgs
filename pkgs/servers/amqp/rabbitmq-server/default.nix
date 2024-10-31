@@ -1,39 +1,43 @@
-{ lib
-, stdenv
-, fetchurl
-, erlang
-, elixir
-, python3
-, libxml2
-, libxslt
-, xmlto
-, docbook_xml_dtd_45
-, docbook_xsl
-, zip
-, unzip
-, rsync
-, getconf
-, socat
-, procps
-, coreutils
-, gnused
-, systemd
-, glibcLocales
-, AppKit
-, Carbon
-, Cocoa
-, nixosTests
+{
+  lib,
+  stdenv,
+  fetchurl,
+  erlang,
+  elixir,
+  python3,
+  libxml2,
+  libxslt,
+  xmlto,
+  docbook_xml_dtd_45,
+  docbook_xsl,
+  zip,
+  unzip,
+  rsync,
+  getconf,
+  socat,
+  procps,
+  coreutils,
+  gnused,
+  systemd,
+  glibcLocales,
+  AppKit,
+  Carbon,
+  Cocoa,
+  nixosTests,
 }:
 
 let
-  runtimePath = lib.makeBinPath ([
-    erlang
-    getconf # for getting memory limits
-    socat
-    procps
-    gnused
-    coreutils # used by helper scripts
-  ] ++ lib.optionals stdenv.hostPlatform.isLinux [ systemd ]); # for systemd unit activation check
+  runtimePath = lib.makeBinPath (
+    [
+      erlang
+      getconf # for getting memory limits
+      socat
+      procps
+      gnused
+      coreutils # used by helper scripts
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isLinux [ systemd ]
+  ); # for systemd unit activation check
 in
 
 stdenv.mkDerivation rec {
@@ -46,19 +50,45 @@ stdenv.mkDerivation rec {
     hash = "sha256-GDUyYudwhQSLrFXO21W3fwmH2tl2STF9gSuZsb3GZh0=";
   };
 
-  nativeBuildInputs = [ unzip xmlto docbook_xml_dtd_45 docbook_xsl zip rsync python3 ];
+  nativeBuildInputs = [
+    unzip
+    xmlto
+    docbook_xml_dtd_45
+    docbook_xsl
+    zip
+    rsync
+    python3
+  ];
 
-  buildInputs = [ erlang elixir libxml2 libxslt glibcLocales ]
-    ++ lib.optionals stdenv.hostPlatform.isDarwin [ AppKit Carbon Cocoa ];
+  buildInputs =
+    [
+      erlang
+      elixir
+      libxml2
+      libxslt
+      glibcLocales
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isDarwin [
+      AppKit
+      Carbon
+      Cocoa
+    ];
 
-  outputs = [ "out" "man" "doc" ];
+  outputs = [
+    "out"
+    "man"
+    "doc"
+  ];
 
   installFlags = [
     "PREFIX=${placeholder "out"}"
     "RMQ_ERLAPP_DIR=${placeholder "out"}"
   ];
 
-  installTargets = [ "install" "install-man" ];
+  installTargets = [
+    "install"
+    "install-man"
+  ];
 
   preBuild = ''
     export LANG=C.UTF-8 # fix elixir locale warning

@@ -1,20 +1,21 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, boost
-, pkg-config
-, gnutls
-, libgcrypt
-, libpar2
-, libcap
-, libsigcxx
-, libxml2
-, ncurses
-, openssl
-, zlib
-, deterministic-uname
-, nixosTests
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  boost,
+  pkg-config,
+  gnutls,
+  libgcrypt,
+  libpar2,
+  libcap,
+  libsigcxx,
+  libxml2,
+  ncurses,
+  openssl,
+  zlib,
+  deterministic-uname,
+  nixosTests,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -28,7 +29,10 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-Gci9bVjmewoEii6OiOuRpLgEBEKApmMmlA5v3OedCo4=";
   };
 
-  nativeBuildInputs = [ cmake pkg-config ];
+  nativeBuildInputs = [
+    cmake
+    pkg-config
+  ];
 
   buildInputs = [
     boost
@@ -54,14 +58,19 @@ stdenv.mkDerivation (finalAttrs: {
 
   enableParallelBuilding = true;
 
-  passthru.tests = { inherit (nixosTests) nzbget; };
+  passthru.tests = {
+    inherit (nixosTests) nzbget;
+  };
 
   meta = with lib; {
     homepage = "https://nzbget.com/";
     changelog = "https://github.com/nzbgetcom/nzbget/releases/tag/v${finalAttrs.version}";
     license = licenses.gpl2Plus;
     description = "Command line tool for downloading files from news servers";
-    maintainers = with maintainers; [ pSub devusb ];
+    maintainers = with maintainers; [
+      pSub
+      devusb
+    ];
     platforms = with platforms; unix;
     mainProgram = "nzbget";
   };

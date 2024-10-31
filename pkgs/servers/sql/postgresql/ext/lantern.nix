@@ -1,10 +1,11 @@
-{ lib
-, stdenv
-, cmake
-, fetchFromGitHub
-, openssl
-, postgresql
-, postgresqlTestExtension
+{
+  lib,
+  stdenv,
+  cmake,
+  fetchFromGitHub,
+  openssl,
+  postgresql,
+  postgresqlTestExtension,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -21,7 +22,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   postPatch = ''
     patchShebangs --build lantern_hnsw/scripts/link_llvm_objects.sh
-   '';
+  '';
 
   nativeBuildInputs = [
     cmake
@@ -68,6 +69,7 @@ stdenv.mkDerivation (finalAttrs: {
     maintainers = [ ];
     platforms = postgresql.meta.platforms;
     # error: use of undeclared identifier 'aligned_alloc'
-    broken = stdenv.hostPlatform.isDarwin && lib.versionOlder stdenv.hostPlatform.darwinMinVersion "10.13";
+    broken =
+      stdenv.hostPlatform.isDarwin && lib.versionOlder stdenv.hostPlatform.darwinMinVersion "10.13";
   };
 })

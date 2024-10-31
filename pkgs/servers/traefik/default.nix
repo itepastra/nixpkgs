@@ -1,4 +1,9 @@
-{ lib, fetchzip, buildGo123Module, nixosTests }:
+{
+  lib,
+  fetchzip,
+  buildGo123Module,
+  nixosTests,
+}:
 
 buildGo123Module rec {
   pname = "traefik";
@@ -28,7 +33,9 @@ buildGo123Module rec {
 
   doCheck = false;
 
-  passthru.tests = { inherit (nixosTests) traefik; };
+  passthru.tests = {
+    inherit (nixosTests) traefik;
+  };
 
   meta = with lib; {
     homepage = "https://traefik.io";

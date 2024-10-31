@@ -1,8 +1,9 @@
-{ lib
-, buildDotnetModule
-, fetchFromGitHub
-, dotnetCorePackages
-, stdenv
+{
+  lib,
+  buildDotnetModule,
+  fetchFromGitHub,
+  dotnetCorePackages,
+  stdenv,
 }:
 
 buildDotnetModule rec {

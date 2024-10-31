@@ -1,9 +1,10 @@
-{ lib
-, fetchFromGitHub
-, rustPlatform
-, fetchurl
-, stdenv
-, darwin
+{
+  lib,
+  fetchFromGitHub,
+  rustPlatform,
+  fetchurl,
+  stdenv,
+  darwin,
 }:
 
 let
@@ -42,7 +43,9 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-lj/wmLu4cBjDjzMD8DlIz+6Rnag0h+zWiE7lfcTC7lY=";
 
-  buildInputs = lib.optionals stdenv.hostPlatform.isDarwin [ darwin.apple_sdk.frameworks.SystemConfiguration ];
+  buildInputs = lib.optionals stdenv.hostPlatform.isDarwin [
+    darwin.apple_sdk.frameworks.SystemConfiguration
+  ];
 
   # tests run in CI on the source repo
   doCheck = false;
@@ -53,7 +56,10 @@ rustPlatform.buildRustPackage rec {
   meta = with lib; {
     description = "Solidity test generator based on the Branching Tree Technique";
     homepage = "https://github.com/alexfertel/bulloak";
-    license = with licenses; [ mit asl20 ];
+    license = with licenses; [
+      mit
+      asl20
+    ];
     mainProgram = "bulloak";
     maintainers = with maintainers; [ beeb ];
   };

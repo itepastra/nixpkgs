@@ -1,9 +1,10 @@
-{ lib
-, stdenvNoCC
-, fetchFromGitHub
-, plasma-desktop
-, qtsvg
-, unstableGitUpdater
+{
+  lib,
+  stdenvNoCC,
+  fetchFromGitHub,
+  plasma-desktop,
+  qtsvg,
+  unstableGitUpdater,
 }:
 
 stdenvNoCC.mkDerivation {

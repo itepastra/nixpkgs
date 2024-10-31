@@ -1,19 +1,29 @@
 # This module generates nixos-install, nixos-rebuild,
 # nixos-generate-config, etc.
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
-  makeProg = args: pkgs.substituteAll (args // {
-    dir = "bin";
-    isExecutable = true;
-    nativeBuildInputs = [
-      pkgs.installShellFiles
-    ];
-    postInstall = ''
-      installManPage ${args.manPage}
-    '';
-  });
+  makeProg =
+    args:
+    pkgs.substituteAll (
+      args
+      // {
+        dir = "bin";
+        isExecutable = true;
+        nativeBuildInputs = [
+          pkgs.installShellFiles
+        ];
+        postInstall = ''
+          installManPage ${args.manPage}
+        '';
+      }
+    );
 
   nixos-generate-config = makeProg {
     name = "nixos-generate-config";
@@ -33,13 +43,17 @@ let
     inherit (pkgs) runtimeShell;
     inherit (config.system.nixos) version codeName revision;
     inherit (config.system) configurationRevision;
-    json = builtins.toJSON ({
-      nixosVersion = config.system.nixos.version;
-    } // lib.optionalAttrs (config.system.nixos.revision != null) {
-      nixpkgsRevision = config.system.nixos.revision;
-    } // lib.optionalAttrs (config.system.configurationRevision != null) {
-      configurationRevision = config.system.configurationRevision;
-    });
+    json = builtins.toJSON (
+      {
+        nixosVersion = config.system.nixos.version;
+      }
+      // lib.optionalAttrs (config.system.nixos.revision != null) {
+        nixpkgsRevision = config.system.nixos.revision;
+      }
+      // lib.optionalAttrs (config.system.configurationRevision != null) {
+        configurationRevision = config.system.configurationRevision;
+      }
+    );
     manPage = ./manpages/nixos-version.8;
   };
 
@@ -186,7 +200,7 @@ in
     desktopConfiguration = lib.mkOption {
       internal = true;
       type = lib.types.listOf lib.types.lines;
-      default = [];
+      default = [ ];
       description = ''
         Text to preseed the desktop configuration that `nixos-generate-config`
         saves to `/etc/nixos/configuration.nix`.
@@ -213,26 +227,46 @@ in
     '';
   };
 
-  imports = let
-    mkToolModule = { name, package ? pkgs.${name} }: { config, ... }: {
-      options.system.tools.${name}.enable = lib.mkEnableOption "${name} script" // {
-        default = config.nix.enable;
-        internal = true;
-      };
+  imports =
+    let
+      mkToolModule =
+        {
+          name,
+          package ? pkgs.${name},
+        }:
+        { config, ... }:
+        {
+          options.system.tools.${name}.enable = lib.mkEnableOption "${name} script" // {
+            default = config.nix.enable;
+            internal = true;
+          };
 
-      config = lib.mkIf config.system.tools.${name}.enable {
-        environment.systemPackages = [ package ];
-      };
-    };
-  in [
-    (mkToolModule { name = "nixos-build-vms"; })
-    (mkToolModule { name = "nixos-enter"; })
-    (mkToolModule { name = "nixos-generate-config"; package = nixos-generate-config; })
-    (mkToolModule { name = "nixos-install"; package = nixos-install; })
-    (mkToolModule { name = "nixos-option"; })
-    (mkToolModule { name = "nixos-rebuild"; package = nixos-rebuild; })
-    (mkToolModule { name = "nixos-version"; package = nixos-version; })
-  ];
+          config = lib.mkIf config.system.tools.${name}.enable {
+            environment.systemPackages = [ package ];
+          };
+        };
+    in
+    [
+      (mkToolModule { name = "nixos-build-vms"; })
+      (mkToolModule { name = "nixos-enter"; })
+      (mkToolModule {
+        name = "nixos-generate-config";
+        package = nixos-generate-config;
+      })
+      (mkToolModule {
+        name = "nixos-install";
+        package = nixos-install;
+      })
+      (mkToolModule { name = "nixos-option"; })
+      (mkToolModule {
+        name = "nixos-rebuild";
+        package = nixos-rebuild;
+      })
+      (mkToolModule {
+        name = "nixos-version";
+        package = nixos-version;
+      })
+    ];
 
   config = lib.mkMerge [
     (lib.mkIf config.system.disableInstallerTools {

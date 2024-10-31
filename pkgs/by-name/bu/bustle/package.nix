@@ -1,21 +1,22 @@
-{ lib
-, stdenv
-, fetchFromGitLab
-, buildPackages
-, cargo
-, meson
-, ninja
-, pkg-config
-, desktop-file-utils
-, rustPlatform
-, rustc
-, wrapGAppsHook4
-, darwin
-, gettext
-, glib
-, gtk4
-, libadwaita
-, libiconv
+{
+  lib,
+  stdenv,
+  fetchFromGitLab,
+  buildPackages,
+  cargo,
+  meson,
+  ninja,
+  pkg-config,
+  desktop-file-utils,
+  rustPlatform,
+  rustc,
+  wrapGAppsHook4,
+  darwin,
+  gettext,
+  glib,
+  gtk4,
+  libadwaita,
+  libiconv,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -56,14 +57,16 @@ stdenv.mkDerivation (finalAttrs: {
     glib
   ];
 
-  buildInputs = [
-    glib
-    gtk4
-    libadwaita
-  ] ++ lib.optionals stdenv.hostPlatform.isDarwin [
-    darwin.apple_sdk.frameworks.Foundation
-    libiconv
-  ];
+  buildInputs =
+    [
+      glib
+      gtk4
+      libadwaita
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isDarwin [
+      darwin.apple_sdk.frameworks.Foundation
+      libiconv
+    ];
 
   meta = with lib; {
     description = "Graphical D-Bus message analyser and profiler";

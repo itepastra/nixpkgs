@@ -1,8 +1,9 @@
-{ lib
-, buildGo123Module
-, fetchFromGitHub
-, clang
-, libpcap
+{
+  lib,
+  buildGo123Module,
+  fetchFromGitHub,
+  clang,
+  libpcap,
 }:
 
 buildGo123Module rec {

@@ -1,4 +1,10 @@
-{ lib, stdenv, fetchFromGitHub, postgresql, postgresqlTestExtension }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  postgresql,
+  postgresqlTestExtension,
+}:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "pg_squeeze";
@@ -7,7 +13,7 @@ stdenv.mkDerivation (finalAttrs: {
   src = fetchFromGitHub {
     owner = "cybertec-postgresql";
     repo = "pg_squeeze";
-    rev = "REL${builtins.replaceStrings ["."] ["_"] finalAttrs.version}";
+    rev = "REL${builtins.replaceStrings [ "." ] [ "_" ] finalAttrs.version}";
     hash = "sha256-Kh1wSOvV5Rd1CG/na3yzbWzvaR8SJ6wmTZOnM+lbgik=";
   };
 

@@ -1,8 +1,8 @@
 {
-  buildDotnetModule
-  , fetchFromGitHub
-  , lib
-  , openal
+  buildDotnetModule,
+  fetchFromGitHub,
+  lib,
+  openal,
 }:
 
 buildDotnetModule rec {

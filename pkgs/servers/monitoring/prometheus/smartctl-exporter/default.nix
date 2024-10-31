@@ -1,8 +1,9 @@
-{ lib
-, fetchFromGitHub
-, buildGoModule
-, nixosTests
-, smartmontools
+{
+  lib,
+  fetchFromGitHub,
+  buildGoModule,
+  nixosTests,
+  smartmontools,
 }:
 
 buildGoModule rec {
@@ -27,7 +28,9 @@ buildGoModule rec {
     "-X github.com/prometheus/common/version.Version=${version}"
   ];
 
-  passthru.tests = { inherit (nixosTests.prometheus-exporters) smartctl; };
+  passthru.tests = {
+    inherit (nixosTests.prometheus-exporters) smartctl;
+  };
 
   meta = with lib; {
     description = "Export smartctl statistics for Prometheus";
@@ -35,6 +38,9 @@ buildGoModule rec {
     homepage = "https://github.com/prometheus-community/smartctl_exporter";
     license = licenses.lgpl3;
     platforms = platforms.linux;
-    maintainers = with maintainers; [ hexa Frostman ];
+    maintainers = with maintainers; [
+      hexa
+      Frostman
+    ];
   };
 }

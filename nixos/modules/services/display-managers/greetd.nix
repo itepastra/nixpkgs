@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.services.greetd;
   tty = "tty${toString cfg.vt}";
@@ -8,7 +13,10 @@ in
   options.services.greetd = {
     enable = lib.mkEnableOption "greetd, a minimal and flexible login manager daemon";
 
-    package = lib.mkPackageOption pkgs [ "greetd" "greetd" ] { };
+    package = lib.mkPackageOption pkgs [
+      "greetd"
+      "greetd"
+    ] { };
 
     settings = lib.mkOption {
       type = settingsFormat.type;
@@ -79,12 +87,14 @@ in
         Wants = [
           "systemd-user-sessions.service"
         ];
-        After = [
-          "systemd-user-sessions.service"
-          "getty@${tty}.service"
-        ] ++ lib.optionals (!cfg.greeterManagesPlymouth) [
-          "plymouth-quit-wait.service"
-        ];
+        After =
+          [
+            "systemd-user-sessions.service"
+            "getty@${tty}.service"
+          ]
+          ++ lib.optionals (!cfg.greeterManagesPlymouth) [
+            "plymouth-quit-wait.service"
+          ];
         Conflicts = [
           "getty@${tty}.service"
         ];

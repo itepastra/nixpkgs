@@ -1,9 +1,10 @@
-{ lib
-, stdenv
-, buildGoModule
-, fetchFromGitHub
-, xorg ? null
-, darwin ? null
+{
+  lib,
+  stdenv,
+  buildGoModule,
+  fetchFromGitHub,
+  xorg ? null,
+  darwin ? null,
 }:
 
 buildGoModule rec {
@@ -19,7 +20,9 @@ buildGoModule rec {
 
   vendorHash = "sha256-celee8uyoirX+vtAww2iQJtRwJEHyfHL2mZA2muSRiQ=";
 
-  buildInputs = lib.optionals stdenv.hostPlatform.isLinux [ xorg.libX11 ] ++ lib.optionals stdenv.hostPlatform.isDarwin [ darwin.apple_sdk.frameworks.Cocoa ];
+  buildInputs =
+    lib.optionals stdenv.hostPlatform.isLinux [ xorg.libX11 ]
+    ++ lib.optionals stdenv.hostPlatform.isDarwin [ darwin.apple_sdk.frameworks.Cocoa ];
 
   meta = with lib; {
     description = "A cross-platform TUI database management tool written in Go";

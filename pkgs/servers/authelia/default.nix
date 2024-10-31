@@ -1,11 +1,30 @@
-{ lib, nodejs, pnpm, fetchFromGitHub, buildGoModule, installShellFiles, callPackage, nixosTests }:
+{
+  lib,
+  nodejs,
+  pnpm,
+  fetchFromGitHub,
+  buildGoModule,
+  installShellFiles,
+  callPackage,
+  nixosTests,
+}:
 
 let
-  inherit (import ./sources.nix { inherit fetchFromGitHub; }) pname version src vendorHash;
+  inherit (import ./sources.nix { inherit fetchFromGitHub; })
+    pname
+    version
+    src
+    vendorHash
+    ;
   web = callPackage ./web.nix { inherit nodejs pnpm fetchFromGitHub; };
 in
 buildGoModule rec {
-  inherit pname version src vendorHash;
+  inherit
+    pname
+    version
+    src
+    vendorHash
+    ;
 
   nativeBuildInputs = [ installShellFiles ];
 
@@ -58,7 +77,9 @@ buildGoModule rec {
     # if overriding replace the postPatch to put your web UI output in internal/server/public_html
     inherit web;
     updateScript = ./update.sh;
-    tests = { inherit (nixosTests) authelia; };
+    tests = {
+      inherit (nixosTests) authelia;
+    };
   };
 
   meta = with lib; {
@@ -74,7 +95,11 @@ buildGoModule rec {
       authentication.
     '';
     license = licenses.asl20;
-    maintainers = with maintainers; [ jk dit7ya nicomem ];
+    maintainers = with maintainers; [
+      jk
+      dit7ya
+      nicomem
+    ];
     mainProgram = "authelia";
   };
 }

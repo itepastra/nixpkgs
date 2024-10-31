@@ -1,16 +1,17 @@
-{ lib
-, rustPlatform
-, fetchFromGitLab
-, installShellFiles
-, pkg-config
-, python3
-, dbus
-, glib
-, gpgme
-, gtk3
-, libxcb
-, libxkbcommon
-, stdenv
+{
+  lib,
+  rustPlatform,
+  fetchFromGitLab,
+  installShellFiles,
+  pkg-config,
+  python3,
+  dbus,
+  glib,
+  gpgme,
+  gtk3,
+  libxcb,
+  libxkbcommon,
+  stdenv,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -34,7 +35,12 @@ rustPlatform.buildRustPackage rec {
     done
   '';
 
-  nativeBuildInputs = [ gpgme installShellFiles pkg-config python3 ];
+  nativeBuildInputs = [
+    gpgme
+    installShellFiles
+    pkg-config
+    python3
+  ];
 
   buildInputs = [
     dbus
@@ -57,7 +63,7 @@ rustPlatform.buildRustPackage rec {
     changelog = "https://gitlab.com/timvisee/prs/-/blob/v${version}/CHANGELOG.md";
     license = with licenses; [
       lgpl3Only # lib
-      gpl3Only  # everything else
+      gpl3Only # everything else
     ];
     maintainers = with maintainers; [ dotlambda ];
     mainProgram = "prs";

@@ -1,21 +1,22 @@
-{ stdenv
-, fetchurl
-, dpkg
-, lib
-, glib
-, nss
-, nspr
-, cups
-, dbus
-, libdrm
-, gtk3
-, pango
-, cairo
-, libxkbcommon
-, mesa
-, expat
-, alsa-lib
-, buildFHSEnv
+{
+  stdenv,
+  fetchurl,
+  dpkg,
+  lib,
+  glib,
+  nss,
+  nspr,
+  cups,
+  dbus,
+  libdrm,
+  gtk3,
+  pango,
+  cairo,
+  libxkbcommon,
+  mesa,
+  expat,
+  alsa-lib,
+  buildFHSEnv,
 }:
 
 let
@@ -45,39 +46,43 @@ let
 
   typoraFHS = buildFHSEnv {
     name = "typora-fhs";
-    targetPkgs = pkgs: (with pkgs; [
-      typoraBase
-      udev
-      alsa-lib
-      glib
-      nss
-      nspr
-      atk
-      cups
-      dbus
-      gtk3
-      libdrm
-      pango
-      cairo
-      mesa
-      expat
-      libxkbcommon
-    ]) ++ (with pkgs.xorg; [
-      libX11
-      libXcursor
-      libXrandr
-      libXcomposite
-      libXdamage
-      libXext
-      libXfixes
-      libxcb
-    ]);
+    targetPkgs =
+      pkgs:
+      (with pkgs; [
+        typoraBase
+        udev
+        alsa-lib
+        glib
+        nss
+        nspr
+        atk
+        cups
+        dbus
+        gtk3
+        libdrm
+        pango
+        cairo
+        mesa
+        expat
+        libxkbcommon
+      ])
+      ++ (with pkgs.xorg; [
+        libX11
+        libXcursor
+        libXrandr
+        libXcomposite
+        libXdamage
+        libXext
+        libXfixes
+        libxcb
+      ]);
     runScript = ''
       Typora $*
     '';
   };
 
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   inherit pname version;
 
   dontUnpack = true;

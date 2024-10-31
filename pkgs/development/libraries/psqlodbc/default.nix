@@ -1,6 +1,13 @@
-{ lib, stdenv, fetchurl, postgresql, openssl
-, withLibiodbc ? false, libiodbc
-, withUnixODBC ? true, unixODBC
+{
+  lib,
+  stdenv,
+  fetchurl,
+  postgresql,
+  openssl,
+  withLibiodbc ? false,
+  libiodbc,
+  withUnixODBC ? true,
+  unixODBC,
 }:
 
 assert lib.xor withLibiodbc withUnixODBC;
@@ -17,9 +24,7 @@ stdenv.mkDerivation rec {
   buildInputs = [
     postgresql
     openssl
-  ]
-  ++ lib.optional withLibiodbc libiodbc
-  ++ lib.optional withUnixODBC unixODBC;
+  ] ++ lib.optional withLibiodbc libiodbc ++ lib.optional withUnixODBC unixODBC;
 
   passthru = lib.optionalAttrs withUnixODBC {
     fancyName = "PostgreSQL";
@@ -28,8 +33,7 @@ stdenv.mkDerivation rec {
 
   configureFlags = [
     "--with-libpq=${lib.getDev postgresql}/bin/pg_config"
-  ]
-  ++ lib.optional withLibiodbc "--with-iodbc=${libiodbc}";
+  ] ++ lib.optional withLibiodbc "--with-iodbc=${libiodbc}";
 
   meta = with lib; {
     homepage = "https://odbc.postgresql.org/";
