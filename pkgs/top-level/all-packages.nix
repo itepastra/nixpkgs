@@ -13691,7 +13691,11 @@ with pkgs;
     inherit (darwin.apple_sdk.frameworks) AppKit;
   };
 
-  electron-cash = libsForQt5.callPackage ../applications/misc/electron-cash { };
+  ecs-agent = callPackage ../applications/virtualization/ecs-agent { };
+
+  oed = callPackage ../applications/editors/oed { };
+
+  electron-cash = libsForQt5.callPackage ../by-name/el/electron-cash { };
 
   electrum = libsForQt5.callPackage ../applications/misc/electrum { };
 
