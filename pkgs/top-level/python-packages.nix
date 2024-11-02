@@ -15475,6 +15475,8 @@ self: super: with self; {
 
   swifter = callPackage ../development/python-modules/swifter { };
 
+  swig-pypi = callPackage ../development/python-modules/swig-pypi { };
+
   swisshydrodata = callPackage ../development/python-modules/swisshydrodata { };
 
   swspotify = callPackage ../development/python-modules/swspotify { };
