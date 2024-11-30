@@ -83,14 +83,9 @@ buildPythonPackage {
     fetchSubmodules = true;
   };
 
-  patches = [
-    # Helps with cross compilation, see https://github.com/scipy/scipy/pull/18167
-    (fetchpatch {
-      url = "https://github.com/scipy/scipy/commit/dd50ac9d98dbb70625333a23e3a90e493228e3be.patch";
-      hash = "sha256-Vf6/hhwu6X5s8KWhq8bUZKtSkdVu/GtEpGtj8Olxe7s=";
-      excludes = [ "doc/source/dev/contributor/meson_advanced.rst" ];
-    })
-  ];
+  patches =
+    [
+    ];
 
   # Upstream says in a comment in their pyproject.toml that building against
   # both numpy 2 and numpy 1 should work, but they seem to worry about numpy
