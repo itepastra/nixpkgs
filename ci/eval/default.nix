@@ -261,6 +261,9 @@ let
           --slurpfile after ${afterResultDir}/outpaths.json \
           > $out/changed-paths.json
 
+        jq -r '.attrdiff, .rebuildsByKernel |
+          to_entries[] | "## \(.key | ascii_upcase) \(.value | length | tostring)", "\(.value[])"
+          ' < $out/changed-paths.json > $out/step-summary.md
         # TODO: Compare eval stats
       '';
 
