@@ -35,7 +35,7 @@ stdenv.mkDerivation (finalAttrs: {
   # Give hello some install checks for testing purpose.
   postInstallCheck = ''
     stat "''${!outputBin}/bin/${finalAttrs.meta.mainProgram}"
-    echo "this is a test (again#2)"
+    echo "this is a test (again#3)"
   '';
 
   passthru.tests = {
