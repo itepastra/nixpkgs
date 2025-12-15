@@ -40,17 +40,17 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "alvr";
-  version = "20.14.1";
+  version = "20.14.1-unstable-2025-12-15";
 
   src = fetchFromGitHub {
     owner = "alvr-org";
     repo = "ALVR";
-    tag = "v${version}";
+    rev = "67c18608f8f3de9c40e57558fd95bcf24b20bc02";
     fetchSubmodules = true; # TODO devendor openvr
-    hash = "sha256-9fckUhUPAbcmbqOdUO8RlwuK8/nf1fc7XQBrAu5YaR4=";
+    hash = "sha256-cEAjBAGzOx0vS+8+aiS374Bbuwq8mOjm8aUCER10WuQ=";
   };
 
-  cargoHash = "sha256-OTCMWrlwnfpUhm6ssOE133e/3DaQFnOU+NunN2c1N+g=";
+  cargoHash = "sha256-zRZFxCm6qnRVeATzHnoAkV26AG32VKfJABgIzVFX4hQ=";
 
   patches = [
     (replaceVars ./fix-finding-libs.patch {
